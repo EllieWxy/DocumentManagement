@@ -1,6 +1,8 @@
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Main } from './Main';
+import Input from './components/Center/Input/Input'
+import Center from './components/Center/Center'
 
 export class App
 {
@@ -11,7 +13,8 @@ export class App
 
     private render(): void
     {
-        ReactDOM.render(React.createElement(Main, { app: this }), document.getElementById("app"));
+        ReactDOM.render(React.createElement(Center), document.getElementById("app"));
+
     }
 }
 
