@@ -9,3 +9,12 @@
     right: 0;
     padding: 20px;
 }
+
+.button {
+    background-color: #3A62D7;
+    text-align: center;
+    padding: 10px;
+    border-radius: 1000px;
+    color: white;
+    cursor: pointer;
+}

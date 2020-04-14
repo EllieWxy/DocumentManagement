@@ -5,7 +5,7 @@ const config = require('../config')
 
 
 const router = new Router({
-  prefix: '/common'
+  prefix: '/api/common'
 });
 
 router.post('/login',async function(ctx) {

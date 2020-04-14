@@ -8,5 +8,6 @@ module.exports = {
   },
   PORT : process.env.PROT || 3001,
   keys : ['some secret hurr'],
-  salt : 'some salts'
+  salt : 'some salts' ,
+  baseUrl : '/api'
 };

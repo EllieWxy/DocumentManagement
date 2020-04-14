@@ -1,9 +1,10 @@
 const Koa = require('koa2');
 const bodyParser = require('koa-bodyparser');
+const static = require('koa-static');
 const path = require('path');
 const config = require('./config');
-const common = require('./router/common')
-const JSONError = require('./utils/JSONError')
+const JSONError = require('./utils/JSONError');
+const common = require('./router/common');
 
 const app = new Koa();
 app.use(async function(ctx,next) {
@@ -20,6 +21,7 @@ app.use(async function(ctx,next) {
   }
 })
 app.use(bodyParser());
+app.use(static(path.join(__dirname)))
 
 app.use(common.routes())
 
