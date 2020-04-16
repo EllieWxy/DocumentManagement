@@ -12,6 +12,7 @@ router.post('/login',async function(ctx) {
   let {user,password} = ctx.request.body;
   password = crypto.createHmac('sha256',config.salt).update(password).digest('hex')
   await User.checkUser(1,user,password);
+  ctx.session["user"] = user;
   ctx.response.body = '登录成功'
 });
 

@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { App } from './App';
+import Sidebar from "./components/Sidebar/Sidebar";
+import MDEditor from '@uiw/react-md-editor';
+import MDEditorDom from "./components/MDEditor/MDEditor";
 
 export interface IMainProps
 {
@@ -15,10 +18,13 @@ export class Main extends React.Component<IMainProps, {}>
 
     public render(): JSX.Element
     {
+
         return (
-            <>
-                Main app12345
-            </>
+            <div className='content'>
+               <Sidebar/>
+                <MDEditorDom/>
+            </div>
         );
+
     }
 }

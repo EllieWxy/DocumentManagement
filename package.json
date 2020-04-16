@@ -20,10 +20,12 @@
   "homepage": "https://github.com/EllieWxy/DocumentManagement#readme",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "@uiw/react-md-editor": "^1.13.3",
     "crypto": "^1.0.1",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^8.0.8",
     "koa-session": "^5.13.1",
+    "koa-session-mongoose": "^3.0.1",
     "koa-static": "^5.0.0",
     "koa2": "^2.0.0-alpha.7",
     "mongodb": "^3.5.5",

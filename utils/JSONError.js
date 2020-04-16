@@ -1,5 +1,5 @@
 let JSONError = function (message,status) {
-  this.message = {message: message,status:status};
+  this.message = message;
   this.status = status || 500;
 }
 

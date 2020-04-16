@@ -1,0 +1,15 @@
+.option {
+    cursor: pointer;
+    padding: 0 40px;
+    margin: 20px 0;
+}
+
+.content {
+    display: inline-block;
+}
+
+svg {
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}

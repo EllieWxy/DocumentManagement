@@ -1,7 +1,7 @@
 const config = require('../../config.js')
 const url = config.baseUrl;
 
-export default function login(user:string,password:string) :Promise<Response> {
+export default function login(user:string,password:string) :Promise<string|Response> {
     return fetch(url + '/common/login',{
         headers : {
             'Content-Type': 'application/json'
@@ -12,6 +12,6 @@ export default function login(user:string,password:string) :Promise<Response> {
         }),
         method : 'POST'
     }).then(res => {
-        return res.json()
+        return res.text()
     })
 }

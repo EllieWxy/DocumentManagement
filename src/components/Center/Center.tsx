@@ -3,10 +3,7 @@ import Input from './Input/Input'
 import './Center.css'
 import api from '../../apis/login'
 
-export default class Center extends React.Component{
-    // constructor(){
-    //     super('')
-    // }
+export default class Center extends React.Component<{},{user:string,password:string}>{
     constructor(props:any) {
         super(props);
         this.state = {
@@ -19,11 +16,7 @@ export default class Center extends React.Component{
     handleClick = (event:any):void => {
         event.preventDefault();
         api(this.state.user,this.state.password).then(res => {
-            if(res.status == 200){
-                alert('登录成功！')
-            } else {
-                alert(res.message)
-            }
+            alert(res)
         })
     }
 

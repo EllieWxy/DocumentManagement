@@ -1,0 +1,28 @@
+.sidebars {
+    height: 100%;
+}
+
+.sidebar {
+    height: 100%;
+    display: inline-block;
+    background: linear-gradient(45deg,#1bc1c3,#130CB7);
+    color: #eee;
+    float: left;
+}
+
+.information {
+    margin: 60px 40px 20px 40px;
+}
+
+.title{
+    font-size: 24px;
+    margin: 20px 0;
+}
+
+.club {
+    font-size: 20px;
+}
+
+.line {
+  /*margin: 0 -20px;*/
+}

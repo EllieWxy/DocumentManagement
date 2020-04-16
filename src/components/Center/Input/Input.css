@@ -9,16 +9,14 @@
     padding: 10px;
 }
 
-svg {
-    height: 36px;
-    width: 36px;
-    vertical-align: middle;
-    fill:white;
-}
-
 input {
     border: none;
     outline: none;
     background: none;
     color: white;
+}
+
+svg {
+    height: 36px;
+    width: 36px;
 }
