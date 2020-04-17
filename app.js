@@ -5,10 +5,12 @@ const mongoose = require("mongoose");
 const mongooseStore = require('koa-session-mongoose');
 const session = require('koa-session');
 const path = require('path');
+
 const middleware = require('./utils/middleware');
 const config = require('./config');
 const JSONError = require('./utils/JSONError');
 const common = require('./router/common');
+const file = require('./router/file');
 const mongoUrl = require('./models/club').mongoUrl
 
 mongoose.connect(mongoUrl);
@@ -33,8 +35,9 @@ app.use(bodyParser());
 app.use(static(path.join(__dirname)))
 app.use(session({store :new mongooseStore()},app))
 
+// app.use(middleware.checkLogin)
 app.use(common.routes())
-app.use(middleware.checkLogin)
+app.use(file.routes())
 
 app.listen(config.PORT);
 console.log('DM start');
