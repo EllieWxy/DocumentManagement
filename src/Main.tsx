@@ -21,8 +21,9 @@ export class Main extends React.Component<IMainProps, {}>
 
         return (
             <div className='content'>
-               <Sidebar/>
-                <MDEditorDom/>
+               <Sidebar title='萝依' club='红色家园' detail='option'/>
+               <Sidebar title='fileName' club='time' detail='nodes'/>
+                {/*<MDEditorDom/>*/}
             </div>
         );
 
