@@ -22,7 +22,7 @@ export class Main extends React.Component<IMainProps, {}>
         return (
             <div className='content'>
                <Sidebar title='萝依' club='红色家园' detail='option'/>
-               <Sidebar title='fileName' club='time' detail='nodes'/>
+               <Sidebar title='fileName' club='' detail='nodes'/>
                 <MDEditorDom/>
             </div>
         );
