@@ -1,6 +1,9 @@
 .container {
     margin-left: 180px;
 }
+#editor {
+    float: right;
+}
 
 .w-md-editor {
     height: auto;

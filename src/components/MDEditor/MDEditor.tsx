@@ -9,12 +9,12 @@ import '../pen'
 declare var Pen:any
 
 export default function MDEditorDom() {
-    debugger
     // const pen = new Pen("#editor");
-    debugger
     // console.log(pen)
 
-    return <div id="editor"></div>
+    return <div id="editor">
+        <h2>test</h2>
+    </div>
 
     // const [value, setValue] = React.useState("**Hello world!!!**");
     // return (
