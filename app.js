@@ -11,7 +11,7 @@ const config = require('./config');
 const JSONError = require('./utils/JSONError');
 const common = require('./router/common');
 const file = require('./router/file');
-const mongoUrl = require('./models/club').mongoUrl
+const mongoUrl = require('./models').mongoUrl
 
 mongoose.connect(mongoUrl);
 

@@ -14,6 +14,7 @@ export default class Sidebar extends React.Component<Props,{}>{
 
     render(){
         return <div className='sidebar'>
+            <div className='top'></div>
             <div className='information'>
                 <div className='title'>{this.props.title}</div>
                 <div className='club'>{this.props.club}</div>

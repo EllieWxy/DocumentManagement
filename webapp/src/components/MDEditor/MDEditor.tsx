@@ -1,20 +1,14 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import MDEditor from '@uiw/react-md-editor';
 import './MDEditor.css'
-import  '../pen/src/pen.js'
-import '../pen/src/markdown.js'
-import '../pen'
+import "https://unpkg.com/stackedit-js@1.0.7/docs/lib/stackedit.min.js"
 
-declare var Pen:any
 
 export default function MDEditorDom() {
     // const pen = new Pen("#editor");
     // console.log(pen)
 
-    return <div id="editor">
-        <h2>test</h2>
-    </div>
+    return <div id="editor">{
+    }</div>
 
     // const [value, setValue] = React.useState("**Hello world!!!**");
     // return (

@@ -1,4 +1,4 @@
-const fileModel = require('../models/club').File
+const fileModel = require('../models').File
 const JSONError = require('../utils/JSONError')
 
 exports.addFile = function (cid,title,content,father,key) {

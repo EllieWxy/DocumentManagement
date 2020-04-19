@@ -13,6 +13,6 @@
     "preserveConstEnums": true
   },
   "include":[
-    "./src/**/*"
+    "./webapp/src/**/*"
   ]
 }

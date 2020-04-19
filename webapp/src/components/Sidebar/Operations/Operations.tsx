@@ -1,13 +1,11 @@
 import * as React from 'react'
 import Operation from "./Operation/Operation";
 import './Operations.css'
-import '../../../pen.d.ts'
 
 
 export default class Operations extends React.Component{
 
     addClick = function(event:any) : void{
-        const pen = new Pen("#editor")
         console.log('add')
     }
 

@@ -1,4 +1,4 @@
-const userModel = require('../models/club').User;
+const userModel = require('../models').User;
 const JSONError = require('../utils/JSONError');
 
 exports.addUser = function (cid, user, password) {
