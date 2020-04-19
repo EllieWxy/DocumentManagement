@@ -1,4 +1,4 @@
-const config = require('../../config.js')
+const config = require('../../../config.js')
 const url = config.baseUrl;
 
 export default function login(user:string,password:string) :Promise<string|Response> {
