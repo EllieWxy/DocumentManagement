@@ -1,7 +1,7 @@
 import * as React from 'react'
-import './Input.css'
+import './index.css'
 
-export interface Props {
+export interface IInputProps {
     icons:string;
     placeholder:string;
     type:string;
@@ -9,7 +9,7 @@ export interface Props {
 }
 
 
-class Input extends React.Component<Props,{}>{
+export default class Input extends React.Component<IInputProps,{}>{
 
     render(){
         const {icons="",placeholder,type} = this.props
@@ -20,5 +20,3 @@ class Input extends React.Component<Props,{}>{
         </div>
     }
 }
-
-export default Input

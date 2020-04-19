@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { App } from './App';
-import Sidebar from "./components/Sidebar/Sidebar";
-import MDEditorDom from "./components/MDEditor/MDEditor";
 import WorkSpace from "./pages/WorkSpace";
+import Login from "./pages/Login";
 
 export interface IMainProps
 {

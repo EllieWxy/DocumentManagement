@@ -12,7 +12,12 @@ module.exports = {
   },
   devtool: "source-map",
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx", ".json",".css"]
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".json",".css"],
+    alias: {
+      components: path.resolve(__dirname, 'src/components/'),
+      apis: path.resolve(__dirname, 'src/apis/')
+
+    }
   },
   module: {
     rules: [

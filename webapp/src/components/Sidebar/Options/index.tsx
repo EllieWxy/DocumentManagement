@@ -1,12 +1,12 @@
 import * as React from 'react'
-import './Options.css'
+import './index.css'
 
-export interface Props {
+export interface IOptionsProps {
     icon : string,
     content : string
 }
 
-export default class Options extends React.Component<Props,{}>{
+export default class Options extends React.Component<IOptionsProps,{}>{
     render(){
         return <div className='option'>
             <svg viewBox='0 0 1024 1024' className='icon'><path d={this.props.icon}/></svg>

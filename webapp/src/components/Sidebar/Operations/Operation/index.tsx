@@ -1,11 +1,11 @@
 import * as React from 'react'
-import './Operation.css'
-interface Props {
+import './index.css'
+interface IOperationProps {
     icon:string,
     click:any
 }
 
-export default class Operation extends React.Component<Props,{}>{
+export default class Operation extends React.Component<IOperationProps,{}>{
 
 
     render(){
