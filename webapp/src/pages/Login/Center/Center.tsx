@@ -1,7 +1,7 @@
 import * as React from 'react'
-import Input from './Input/Input'
+import Input from '../../../components/Input/Input'
 import './Center.css'
-import api from '../../apis/login'
+import api from '../../../apis/login'
 
 export default class Center extends React.Component<{},{user:string,password:string}>{
     constructor(props:any) {

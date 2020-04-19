@@ -1,6 +1,5 @@
 import React from "react";
 import './MDEditor.css'
-import "https://unpkg.com/stackedit-js@1.0.7/docs/lib/stackedit.min.js"
 
 
 export default function MDEditorDom() {

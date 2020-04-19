@@ -1,7 +1,7 @@
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Main } from './Main';
-import Center from './components/Center/Center'
+import Center from './pages/Login/Center/Center'
 import Sidebar from "./components/Sidebar/Sidebar";
 import './components/common.css'
 import MDEditorDom from './components/MDEditor/MDEditor'
