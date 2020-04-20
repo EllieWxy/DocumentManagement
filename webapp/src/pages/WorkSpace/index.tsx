@@ -7,6 +7,7 @@ export default class WorkSpace extends React.Component{
         return <div className='content'>
             <Sidebar title='萝依' club='红色家园' detail='option'/>
             <Sidebar title='fileName' club='' detail='nodes'/>
+            <div id='editor'></div>
             <MDEditor/>
         </div>
 
