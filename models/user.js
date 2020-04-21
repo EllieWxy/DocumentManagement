@@ -1,7 +1,7 @@
 const db = require('./db')
 
 exports.userSchema = new db.Schema({
-  cid:String,
+  cid:[String],
   sid:String,
   username:String,
   password:String,
