@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const File = require('../modules/file');
 const config = require('../config');
-const JSONError = require('utils/JSONError');
+const JSONError = require('../utils/JSONError');
 
 const router = new Router({
   prefix: '/api/file'
@@ -16,13 +16,20 @@ const router = new Router({
 router.post('/addFile',async function (ctx) {
   const {father,title,content,key} = ctx.request.body;
   // const {cid} = ctx.session;
+  const cid = 1;
   const fidDocs = await File.getNextSequenceValue("file");
   if(!fidDocs){
     throw new JSONError('社团未注册！');
     return
   }
-  const cid = 1;
-  await File.addFile(fidDocs.id,cid,title,content,father,key)
+  const fid = fidDocs.id;
+  const result = await File.fatherAddChild(father,fid,title);
+  if(!result){
+    throw new JSONError('父文件不存在')
+    return
+  }
+  await File.addFile(fid,cid,title,content,father,key);
+  ctx.response.body = '文章创建成功';
 })
 
 /**
@@ -32,8 +39,9 @@ router.post('/addFile',async function (ctx) {
 
 router.get('/getFiles',async function (ctx) {
   // const cid = ctx.session.cid;
+  const father = ctx.query.father || ctx.session.club;
   const cid = 1;
-  const result = await File.getFiles(cid)
+  const result = await File.getFiles(cid,father)
   ctx.response.body = result
 })
 

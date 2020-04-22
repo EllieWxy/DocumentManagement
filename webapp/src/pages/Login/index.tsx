@@ -3,7 +3,7 @@ import Input from 'components/Input'
 import './index.css'
 import api from 'apis/login'
 
-export default class Login extends React.Component<{},{user:string,password:string}>{
+export default class Login extends React.Component<{login:any},{user:string,password:string}>{
     constructor(props:any) {
         super(props);
         this.state = {
@@ -11,14 +11,20 @@ export default class Login extends React.Component<{},{user:string,password:stri
             password:'',
         }
         this.handleClick= this.handleClick.bind(this);
+
     }
 
     handleClick = (event:any):void => {
         event.preventDefault();
         api(this.state.user,this.state.password).then(res => {
             alert(res)
+            if(res == '登录成功'){
+                this.props.login()
+            }
         })
     }
+
+
 
     updateUser(event : React.ChangeEvent<HTMLInputElement>):void{
         this.setState({user: event.target.value});

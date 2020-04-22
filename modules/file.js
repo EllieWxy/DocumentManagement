@@ -13,8 +13,16 @@ exports.addFile = function (fid,cid,title,content,father,key) {
   })
 }
 
-exports.getFiles = function (cid) {
-  return fileModel.find({cid:cid})
+exports.fatherAddChild = function(father,fid,title){
+  return fileModel.findOneAndUpdate({fid:father},{"$push":{"childNodes":{fid:fid,title:title}}});
+}
+
+exports.ifHaveChild = function(fid){
+  return fileModel.find({fid:fid})
+}
+
+exports.getFiles = function (cid,father) {
+  return fileModel.find({cid:cid,father:father})
 }
 
 exports.getNextSequenceValue = function (sequenceName){

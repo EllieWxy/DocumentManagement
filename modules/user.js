@@ -19,7 +19,7 @@ exports.addUser = function (cid, user, password) {
   })
 }
 
-exports.checkUser = function (cid, user, password) {
+exports.checkUser = function (user, password) {
   return userModel.findOne({sid: user}).then((res) => {
     if (res === null) {
       throw new JSONError('账号不存在', 401);
@@ -28,5 +28,6 @@ exports.checkUser = function (cid, user, password) {
         throw new JSONError('用户名或密码不正确!', 401);
       }
     }
+    return res
   })
 }

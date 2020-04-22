@@ -11,6 +11,10 @@ exports.fileSchema = new db.Schema({
   createTime:Date,
   updateTime:Date,
   key:String,
+  childNodes:[{
+    title: String,
+    fid:String
+  }],
   authority: [{
     sid:String,
     auth:[Number]
