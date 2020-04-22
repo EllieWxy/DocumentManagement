@@ -33,18 +33,36 @@ router.post('/addFile',async function (ctx) {
 })
 
 /**
- get getFiles
+ get getAllFiles
  获取所有文件
  */
 
-router.get('/getFiles',async function (ctx) {
+router.get('/getAllFiles',async function (ctx) {
   // const cid = ctx.session.cid;
   const father = ctx.query.father || ctx.session.club;
-  const cid = 1;
+  const cid = ctx.session.cid;
   const result = await File.getAllFiles(cid,father)
   ctx.response.body = result
 })
 
+/**
+ * get getFileDetail
+ * 获取文章的详细信息
+ * */
 
+router.get('/getFileDetail',async function (ctx) {
+  const fid = ctx.query.fid;
+  // const cid = ctx.session.cid;
+  const cid = 1;
+  const result = await File.getFileDetail(cid,fid)
+  ctx.response.body = result
+})
+
+router.post('/saveFile',async function(ctx) {
+  const {fid,content} = ctx.request.body
+  const cid = ctx.session.cid;
+  const result = await File.saveFile(cid,fid,content)
+  ctx.response.body = result
+})
 
 module.exports = router

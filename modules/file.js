@@ -2,6 +2,10 @@ const fileModel = require('../models').File
 const countersModel = require('../models').Couters
 const JSONError = require('../utils/JSONError')
 
+exports.getNextSequenceValue = function (sequenceName) {
+  return countersModel.findOneAndUpdate({name: sequenceName}, {$inc: {id: 1}}, {new: true});
+}
+
 exports.addFile = function (fid, cid, title, content, father, key) {
   fileModel.create({
     fid: fid,
@@ -37,6 +41,12 @@ getAllFiles = async function (cid, fid) {
 
 exports.getAllFiles = getAllFiles
 
-exports.getNextSequenceValue = function (sequenceName) {
-  return countersModel.findOneAndUpdate({name: sequenceName}, {$inc: {id: 1}}, {new: true});
+exports.getFileDetail = function(cid,fid){
+  return fileModel.findOne({cid:cid,fid:fid})
 }
+
+exports.saveFile = function (cid,fid,content) {
+  return fileModel.findOneAndUpdate({cid:cid,fid:fid},{$set:{content:content}})
+}
+
+

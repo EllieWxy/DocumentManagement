@@ -3,7 +3,7 @@ import Options from "./Options";
 import './index.css'
 import Operations from "./Operations";
 import NodeTrees from "pages/WorkSpace/NodeTrees";
-import apiGetFiles from "apis/getFile";
+import {getAllFiles} from "apis/file";
 
 export interface ISidebarProps {
     title : string,
@@ -17,7 +17,7 @@ interface node {
     child:[any] | []
 }
 
-export default class Sidebar extends React.Component<ISidebarProps,{node:node}>{
+export default class Sidebar extends React.Component<ISidebarProps,{node:node,selectFid:string}>{
 
     constructor(props:any){
         super(props);
@@ -26,14 +26,19 @@ export default class Sidebar extends React.Component<ISidebarProps,{node:node}>{
                 title:'',
                 fid:'',
                 child:[]
-            }
+            },
+            selectFid:''
         }
         if(this.props.detail == 'nodes'){
-            apiGetFiles().then(res => {
+            getAllFiles().then(res => {
                 this.setState({node:res})
                 this.render()
             })
         }
+    }
+
+    changeSelectFid(event:any){
+        this.setState({selectFid:event.target.id})
     }
 
     render(){
@@ -53,8 +58,9 @@ export default class Sidebar extends React.Component<ISidebarProps,{node:node}>{
                            content='设置'/>
                 </div> :
                 this.props.detail == 'nodes' ?
-                    <div><Operations/><hr/>
-                    <NodeTrees node={this.state.node}/></div>
+                    <div onClick={this.changeSelectFid.bind(this)}><Operations selectedFid={this.state.selectFid}/><hr/>
+                    <NodeTrees node={this.state.node}
+                               selectedFid={this.state.selectFid}/></div>
                     : ''}
          </div>
     }

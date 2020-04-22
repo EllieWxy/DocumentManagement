@@ -7,25 +7,19 @@ interface INodeTrees {
         title:string,
         child:any,
     }
+    selectedFid:string
 }
 
-export default class NodeTrees extends React.Component<INodeTrees,{selectedFid:string}>{
+export default class NodeTrees extends React.Component<INodeTrees,{}>{
 
     constructor(props:any){
         super(props)
-        this.state = {
-            selectedFid:''
-        }
-    }
-
-    changeSelect(event:any){
-        this.setState({selectedFid:event.target.id})
     }
 
     render(){
         const nodes = this.props.node.child.map((item:any) => {
-           return <NodeTree node={item} selectId={this.state.selectedFid}/>
+           return <NodeTree node={item} selectId={this.props.selectedFid}/>
         })
-        return <div onClick={this.changeSelect.bind(this)}>{nodes}</div>
+        return <div>{nodes}</div>
     }
 }
