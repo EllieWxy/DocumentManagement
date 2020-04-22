@@ -24,7 +24,7 @@ exports.ifHaveChild = function (fid) {
 getAllFiles = async function (cid, fid) {
   const res = await fileModel.find({cid: cid, fid: fid},{title:1,fid:1,childNodes:1})
   let tree = res[0]
-  if (!tree && tree.childNodes.length === 0) {
+  if (!tree || tree.childNodes.length === 0) {
     return tree
   }
 

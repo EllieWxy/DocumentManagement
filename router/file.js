@@ -41,7 +41,7 @@ router.get('/getFiles',async function (ctx) {
   // const cid = ctx.session.cid;
   const father = ctx.query.father || ctx.session.club;
   const cid = 1;
-  const result = await File.getFiles(cid,father)
+  const result = await File.getAllFiles(cid,father)
   ctx.response.body = result
 })
 

@@ -2,7 +2,7 @@ import * as React from 'react'
 import Options from "./Options";
 import './index.css'
 import Operations from "./Operations";
-import NodeTree from "../NodeTree";
+import NodeTrees from "pages/WorkSpace/NodeTrees";
 import apiGetFiles from "apis/getFile";
 
 export interface ISidebarProps {
@@ -11,24 +11,33 @@ export interface ISidebarProps {
     detail: string
 }
 
-export default class Sidebar extends React.Component<ISidebarProps,{title:string,fid:string,childNodes:any}>{
+interface node {
+    title:string,
+    fid:string,
+    child:[any] | []
+}
+
+export default class Sidebar extends React.Component<ISidebarProps,{node:node}>{
 
     constructor(props:any){
         super(props);
         this.state = {
-            title:'',
-            fid:'',
-            childNodes:[]
+            node:{
+                title:'',
+                fid:'',
+                child:[]
+            }
         }
         if(this.props.detail == 'nodes'){
             apiGetFiles().then(res => {
-                this.setState({fid:res.fid,title:res.title,childNodes:res.childNodes})
+                this.setState({node:res})
                 this.render()
             })
         }
     }
 
     render(){
+
         return <div className='sidebar'>
             <div className='top'></div>
             <div className='information'>
@@ -45,7 +54,7 @@ export default class Sidebar extends React.Component<ISidebarProps,{title:string
                 </div> :
                 this.props.detail == 'nodes' ?
                     <div><Operations/><hr/>
-                    <NodeTree title={this.state.title} fid={this.state.fid} childNodes={this.state.childNodes}/></div>
+                    <NodeTrees node={this.state.node}/></div>
                     : ''}
          </div>
     }
