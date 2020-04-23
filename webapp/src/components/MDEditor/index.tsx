@@ -4,9 +4,20 @@ import Vditor from "vditor";
 
 import "vditor/dist/index.css";
 
-export default class MDEditor extends React.Component<any, any> {
+interface IMDEditor {
+  content:string
+}
+
+export default class MDEditor extends React.Component<IMDEditor, any> {
   rootRef = React.createRef<HTMLDivElement>();
   vditor: Vditor | null = null;
+
+  constructor(props:any){
+    super(props)
+    this.state = {
+      content:''
+    }
+  }
 
   componentDidMount() {
     this.vditor = new Vditor(this.rootRef.current, {
@@ -15,6 +26,10 @@ export default class MDEditor extends React.Component<any, any> {
         hide: true
       }
     });
+  }
+
+  componentDidUpdate(){
+    this.vditor.setValue(this.props.content)
   }
 
   render() {

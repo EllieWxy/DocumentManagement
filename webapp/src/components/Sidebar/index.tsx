@@ -8,7 +8,10 @@ import {getAllFiles} from "apis/file";
 export interface ISidebarProps {
     title : string,
     club : string,
-    detail: string
+    detail: string,
+    changeSelect : () => any,
+    getDetail:() => any,
+    selectFid:string
 }
 
 interface node {
@@ -17,7 +20,7 @@ interface node {
     child:[any] | []
 }
 
-export default class Sidebar extends React.Component<ISidebarProps,{node:node,selectFid:string}>{
+export default class Sidebar extends React.Component<ISidebarProps,{node:node}>{
 
     constructor(props:any){
         super(props);
@@ -27,7 +30,6 @@ export default class Sidebar extends React.Component<ISidebarProps,{node:node,se
                 fid:'',
                 child:[]
             },
-            selectFid:''
         }
         if(this.props.detail == 'nodes'){
             getAllFiles().then(res => {
@@ -37,12 +39,7 @@ export default class Sidebar extends React.Component<ISidebarProps,{node:node,se
         }
     }
 
-    changeSelectFid(event:any){
-        this.setState({selectFid:event.target.id})
-    }
-
     render(){
-
         return <div className='sidebar'>
             <div className='top'></div>
             <div className='information'>
@@ -58,9 +55,10 @@ export default class Sidebar extends React.Component<ISidebarProps,{node:node,se
                            content='设置'/>
                 </div> :
                 this.props.detail == 'nodes' ?
-                    <div onClick={this.changeSelectFid.bind(this)}><Operations selectedFid={this.state.selectFid}/><hr/>
+                    <div onClick={this.props.changeSelect} onDoubleClick={this.props.getDetail}>
+                        <Operations selectedFid={this.props.selectFid}/><hr/>
                     <NodeTrees node={this.state.node}
-                               selectedFid={this.state.selectFid}/></div>
+                               selectedFid={this.props.selectFid}/></div>
                     : ''}
          </div>
     }
