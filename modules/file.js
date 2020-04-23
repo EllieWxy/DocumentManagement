@@ -46,7 +46,7 @@ exports.getFileDetail = function(cid,fid){
 }
 
 exports.saveFile = function (cid,fid,content) {
-  return fileModel.findOneAndUpdate({cid:cid,fid:fid},{$set:{content:content}})
+  return fileModel.findOneAndUpdate({cid:cid,fid:fid},{"$set":{"content":content}})
 }
 
 

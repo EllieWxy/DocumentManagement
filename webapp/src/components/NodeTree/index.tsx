@@ -48,7 +48,7 @@ export default class NodeTree extends React.Component<INodeTree,{visible:boolean
 
         return (
             <div>
-                <h5 onClick={()=>{this.toggle()}} className={className} id={this.props.node.fid}>
+                <h5 onClick={()=>{this.toggle()}} className={className + ' node'} id={this.props.node.fid}>
                     {this.props.node.title}
                 </h5>
                 <ul style={style}>

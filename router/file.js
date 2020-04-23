@@ -60,7 +60,8 @@ router.get('/getFileDetail',async function (ctx) {
 
 router.post('/saveFile',async function(ctx) {
   const {fid,content} = ctx.request.body
-  const cid = ctx.session.cid;
+  // const cid = ctx.session.cid;
+  const cid = 1;
   const result = await File.saveFile(cid,fid,content)
   ctx.response.body = result
 })

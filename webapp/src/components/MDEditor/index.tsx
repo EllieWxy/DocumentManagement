@@ -5,7 +5,9 @@ import Vditor from "vditor";
 import "vditor/dist/index.css";
 
 interface IMDEditor {
-  content:string
+  renderFid:string,
+  content:string,
+  getValue:()=>any
 }
 
 export default class MDEditor extends React.Component<IMDEditor, any> {
@@ -24,13 +26,18 @@ export default class MDEditor extends React.Component<IMDEditor, any> {
       cache: { enable: false },
       toolbarConfig: {
         hide: true
-      }
+      },
+      input: this.props.getValue
     });
+
   }
 
-  componentDidUpdate(){
-    this.vditor.setValue(this.props.content)
+  componentDidUpdate(prevProps:any){
+    if(this.props.renderFid !== prevProps.renderFid){
+      this.vditor.setValue(this.props.content)
+    }
   }
+
 
   render() {
     return <div ref={this.rootRef} />;
