@@ -1,0 +1,21 @@
+.popUp {
+    background: white;
+    position: absolute;
+    width: 200px;
+    height: 180px;
+    text-align: center;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.popUp button {
+    margin: 25px;
+}
+
+.popUp.hidden {
+    display: none;
+}

@@ -8,12 +8,16 @@ body,#app{
     margin: 0;
 }
 
+#app {
+    position: relative;
+}
+
 svg {
     vertical-align: middle;
     fill:white;
 }
 
-.content {
+#app > .content {
     height: 100%;
 }
 
