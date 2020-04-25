@@ -8,12 +8,12 @@ const router = new Router({
 });
 
 /**
- post addFile
+ post /file
  新增一个文件
  */
 
 
-router.post('/addFile',async function (ctx) {
+router.post('/',async function (ctx) {
   const {father,title,content,key} = ctx.request.body;
   // const {cid} = ctx.session;
   const cid = 1;
@@ -33,36 +33,56 @@ router.post('/addFile',async function (ctx) {
 })
 
 /**
- get getAllFiles
+ get /file
  获取所有文件
  */
 
-router.get('/getAllFiles',async function (ctx) {
-  // const cid = ctx.session.cid;
+router.get('/',async function (ctx) {
   const father = ctx.query.father || ctx.session.club;
-  const cid = ctx.session.cid;
-  const result = await File.getAllFiles(cid,father)
+  // const cid = ctx.session.cid;
+  const cid = 1;
+  const result = await File.getFiles(cid,father)
   ctx.response.body = result
 })
 
 /**
- * get getFileDetail
+ * get /file/<id>
  * 获取文章的详细信息
  * */
 
-router.get('/getFileDetail',async function (ctx) {
-  const fid = ctx.query.fid;
+router.get('/:id',async function (ctx) {
+  const fid = ctx.params.id
   // const cid = ctx.session.cid;
   const cid = 1;
-  const result = await File.getFileDetail(cid,fid)
+  const result = await File.getFileByID(cid,fid)
   ctx.response.body = result
 })
 
-router.post('/saveFile',async function(ctx) {
-  const {fid,content} = ctx.request.body
+/**
+ * put /file/<id>
+ *   更新一个文章的内容/标题
+ * */
+
+router.put('/:id',async function(ctx) {
+  const fid = ctx.params.id;
+  const content = ctx.request.body.content || undefined
+  const title = ctx.request.body.title || undefined
   // const cid = ctx.session.cid;
   const cid = 1;
-  const result = await File.saveFile(cid,fid,content)
+  const result = await File.updateFile(cid,fid,content)
+  ctx.response.body = result
+})
+
+/**
+ * delete /file/<id>
+ *   删除一个文档记录
+ * */
+
+router.delete('/:id',async function (ctx) {
+  const fid = ctx.params.id;
+  // const cid = ctx.session.cid;
+  const cid = 1;
+  const result = await File.deleteFile(cid,fid)
   ctx.response.body = result
 })
 

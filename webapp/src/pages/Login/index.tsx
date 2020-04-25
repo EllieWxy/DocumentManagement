@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Input from 'components/Input'
 import './index.css'
-import api from 'apis/login'
+import login from 'apis/login'
 
 export default class Login extends React.Component<{login:any},{user:string,password:string}>{
     constructor(props:any) {
@@ -11,14 +11,13 @@ export default class Login extends React.Component<{login:any},{user:string,pass
             password:'',
         }
         this.handleClick= this.handleClick.bind(this);
-
     }
 
     handleClick = (event:any):void => {
         event.preventDefault();
-        api(this.state.user,this.state.password).then(res => {
-            alert(res)
-            if(res == '登录成功'){
+        login(this.state.user,this.state.password).then(res => {
+            alert(res.message)
+            if(res.message == '登录成功'){
                 this.props.login()
             }
         })

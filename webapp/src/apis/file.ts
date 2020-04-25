@@ -1,23 +1,22 @@
-import getApi from './getApi'
-import postApi from './postApi'
+import fetch from './fetch'
+//没有对file的结构进行定义
 
-export function getFileDetail(fid:string) {
-    return getApi('/file/getFileDetail',{fid:fid})
+export function getFileByID(fid:string) {
+    return fetch(`/file/${fid}`,'GET')
 }
 
-export function getAllFiles(fid?:string) {
-    let params = {}
-    if(fid){
-        params = {fid:fid}
-    }
-    return getApi('/file/getAllFiles',params)
+export function getFile() {
+    // let params = {}
+    // if(fid){
+    //     params = {fid:fid}
+    // }
+    return fetch('/file','GET')
 }
 
-export function saveFile(fid:string,title?:string,content?:string) {
+export function uodateFile(fid:string,title?:string,content?:string) {
     let body = {
-        fid:fid,
         title:title || '',
         content:content || ''
     }
-    return postApi('/file/saveFile',body)
+    return fetch(`/file/${fid}`,'PUT',body)
 }

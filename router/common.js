@@ -20,14 +20,14 @@ router.post('/login',async function(ctx) {
   ctx.session["user"] = user;
   ctx.session["club"] = "redhome";
   ctx.session["cid"] = 1;
-  ctx.response.body = '登录成功'
+  ctx.response.body = {message:'登录成功！'}
 });
 
 router.post('/reg',async function(ctx) {
   let {user,password} = ctx.request.body;
   password = crypto.createHmac('sha256',config.salt).update(password).digest('hex')
   await User.addUser(1,user,password)
-  ctx.response.body = '注册成功！'
+  ctx.response.body = {message:'注册成功！'}
 });
 
 module.exports = router

@@ -25,7 +25,7 @@ exports.ifHaveChild = function (fid) {
   return fileModel.find({fid: fid})
 }
 
-getAllFiles = async function (cid, fid) {
+getFiles = async function (cid, fid) {
   const res = await fileModel.find({cid: cid, fid: fid},{title:1,fid:1,childNodes:1})
   let tree = res[0]
   if (!tree || tree.childNodes.length === 0) {
@@ -34,19 +34,22 @@ getAllFiles = async function (cid, fid) {
 
   tree["_doc"]["child"] = []
   for(item of tree.childNodes){
-    tree["_doc"]["child"].push(await getAllFiles(cid, item.fid));
+    tree["_doc"]["child"].push(await getFiles(cid, item.fid));
   }
   return tree
 }
 
-exports.getAllFiles = getAllFiles
+exports.getFiles = getFiles
 
-exports.getFileDetail = function(cid,fid){
+exports.getFileByID = function(cid,fid){
   return fileModel.findOne({cid:cid,fid:fid})
 }
 
-exports.saveFile = function (cid,fid,content) {
-  return fileModel.findOneAndUpdate({cid:cid,fid:fid},{"$set":{"content":content}})
+exports.updateFile = function (cid,fid,content) {
+  return fileModel.findOneAndUpdate({cid:cid,fid:fid},{"$set":{"content":content}}, {new: true})
 }
 
+exports.deleteFile = function (cid,fid) {
+  return fileModel.remove({cid:cid,fid:fid})
+}
 

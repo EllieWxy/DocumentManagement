@@ -1,17 +1,8 @@
-const config = require('../../../config.js')
-const url = config.baseUrl;
+import fetch from './fetch'
 
-export default function login(user:string,password:string) :Promise<string|Response> {
-    return fetch(url + '/common/login',{
-        headers : {
-            'Content-Type': 'application/json'
-        },
-        body : JSON.stringify({
+export default function login(user:string,password:string) :Promise<any> {
+    return fetch('/common/login','POST',{
             user : user,
-            password : password
-        }),
-        method : 'POST'
-    }).then(res => {
-        return res.text()
+            password : password,
     })
 }
