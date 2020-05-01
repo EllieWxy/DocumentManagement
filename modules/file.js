@@ -50,6 +50,12 @@ exports.updateFile = function (cid,fid,content) {
 }
 
 exports.deleteFile = function (cid,fid) {
-  return fileModel.remove({cid:cid,fid:fid})
+  return fileModel.findOne({fid: fid}).then(async res => {
+    if(res === null){
+      throw new JSONError('文档不存在',403)
+    }
+    await fileModel.remove({cid:cid,fid:fid})
+    return await fileModel.update({fid:res.father},{$pull:{childNodes:{fid:fid}}})
+  })
 }
 

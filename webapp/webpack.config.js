@@ -14,9 +14,11 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx", ".json",".css"],
     alias: {
+      '@': path.resolve(__dirname, 'src'),
       components: path.resolve(__dirname, 'src/components/'),
       apis: path.resolve(__dirname, 'src/apis/'),
-      pages: path.resolve(__dirname,'src/pages/')
+      pages: path.resolve(__dirname,'src/pages/'),
+      img: path.resolve(__dirname,'src/img/'),
     }
   },
   module: {
@@ -28,9 +30,12 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
+        // options: {
+        //   modules: true,
+        // },
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|svg)$/i,
         loader: 'file-loader',
       },
     ]
