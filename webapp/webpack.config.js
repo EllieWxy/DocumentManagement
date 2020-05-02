@@ -29,10 +29,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-        // options: {
-        //   modules: true,
-        // },
+        use : [ 'style-loader', 'typings-for-css-modules-loader?modules&namedExport&camelCase']
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,

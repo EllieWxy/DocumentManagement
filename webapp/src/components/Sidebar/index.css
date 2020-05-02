@@ -23,6 +23,14 @@
     font-size: 20px;
 }
 
-.line {
-  /*margin: 0 -20px;*/
+.leftSide {
+    float: left;
+}
+
+.top {
+    margin: 0 20px;
+}
+
+.nodeTree {
+
 }

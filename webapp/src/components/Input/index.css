@@ -1,28 +1,24 @@
-/*.input {*/
-
-/*}*/
-
-.input {
+.input:global(.hasBack){
     background-color: rgba(255,255,255,0.3);
     border-radius: 100px;
     margin: 20px 0;
-    padding: 10px;
+    padding: 10px 20px;
 }
 
-input {
+:global(.hasBack) > input{
     border: none;
     outline: none;
     background: none;
     color: white;
 }
 
-svg {
-    height: 36px;
-    width: 36px;
+img {
+    height: 24px;
+    width: 24px;
+    vertical-align: middle;
+    margin: 0 10px;
 }
 
-img {
-    height: 40px;
-    width: 40px;
-    vertical-align: middle;
+::-webkit-input-placeholder {
+    color: white;
 }

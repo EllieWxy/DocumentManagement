@@ -25,9 +25,8 @@ export class Main extends React.Component<IMainProps, {login:boolean}>
     public render(): JSX.Element
     {
         return (
-            <WorkSpace/>
-            // this.state.login ? <WorkSpace/> : <Login login={this.handleLogin.bind(this)}/>
-
+          //  {/*<WorkSpace/>*/}
+            this.state.login ? <WorkSpace/> : <Login login={this.handleLogin.bind(this)}/>
         );
 
     }

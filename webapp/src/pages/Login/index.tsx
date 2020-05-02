@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Input from 'components/Input'
-import './index.css'
+import style from './index.css'
 import login from 'apis/login'
 import userIcon from "img/user.svg"
 import passwordIcon from "img/password.svg"
@@ -19,9 +19,11 @@ export default class Login extends React.Component<{login:any},{user:string,pass
     handleClick = (event:any):void => {
         event.preventDefault();
         login(this.state.user,this.state.password).then(res => {
-            alert(res.message)
             if(res.message == '登录成功！'){
+                alert(res.message)
                 this.props.login()
+            } else {
+                alert(res)
             }
         })
     }
@@ -35,12 +37,12 @@ export default class Login extends React.Component<{login:any},{user:string,pass
     }
 
     render(){
-        return <div className='container'>
-            <Input icons={userIcon}
+        return <div className={style.container}>
+            <Input prefix={userIcon} class='hasBack'
                    placeholder='用户名' changeValue={this.updateUser.bind(this)} type='text'/>
-            <Input icons={passwordIcon}
+            <Input prefix={passwordIcon} class='hasBack'
                    placeholder='密码' changeValue={this.updatePassword.bind(this)} type='password'/>
-            <div className='button' onClick={this.handleClick}>登 录</div>
+            <div className={style.button} onClick={this.handleClick}>登 录</div>
         </div>
     }
 

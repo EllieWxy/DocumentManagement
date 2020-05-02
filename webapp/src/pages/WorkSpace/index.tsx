@@ -1,9 +1,9 @@
 import * as React from 'react'
 import Sidebar from "components/Sidebar";
 import MDEditor from "components/MDEditor";
-import './index.css'
-import {getFileDetail, saveFile} from "apis/file";
-import PopUps from "../../components/PopUps";
+import style from './index.css'
+import {getFileByID, updateFile} from "apis/file";
+import PopUps from "components/PopUps";
 
 interface IWorkSpace {
     fid:string,
@@ -38,7 +38,7 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             if(this.state.renderFid === ''){
                 return;
             }
-            saveFile(this.state.renderFid,this.state.title,this.state.content).then(res => {
+            updateFile(this.state.renderFid,this.state.title,this.state.content).then((res: any) => {
                 console.log(res)
             })
         }
@@ -56,7 +56,6 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         return false
     }
 
-
     changeFirstPage(event:any){
         //切换一级页面
         this.setState({select:event.target.innerText})
@@ -69,7 +68,7 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
 
     //双击时对文件内容进行渲染
     getAndRenderFile(event:any){
-        getFileDetail(event.target.id).then(res => {
+       getFileByID(event.target.id).then((res: { fid: any; title: any; content: any; }) => {
             this.setState({renderFid:res.fid,title:res.title,content:res.content})
         })
     }
@@ -86,11 +85,11 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
 
         }
 
-        return <div className='content'>
+        return <div className={style.content}>
             <Sidebar title='萝依' club='红色家园' detail='option' selectFid={this.state.fid}
                      changeSelect={this.changeFirstPage.bind(this)} getDetail={null}/>
             {secondPage}
-            <div className='right'>
+            <div className={style.right}>
                 {rightPage}
             </div>
             {/*弹窗*/}
@@ -98,9 +97,12 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
                     content='请输入文件名'
                     ok={function () {
                         console.log(this.state.value)
-                        this.state.visible = false
-                    }} cancel={function () {
-                        console.log(this)}}
+                        this.state.popUpVisible = false
+                    }.bind(this)}
+                    cancel={function () {
+                        debugger
+                        this.state.popUpVisible = false
+                    }.bind(this)}
                     type='input'
                     visible={this.state.popUpVisible}/>
         </div>

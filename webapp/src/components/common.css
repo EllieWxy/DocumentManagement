@@ -3,12 +3,12 @@ html {
     overflow: hidden;
 }
 
-body,#app{
+body,:global(#app){
     height: 100%;
     margin: 0;
 }
 
-#app {
+:global(#app) {
     position: relative;
 }
 
@@ -17,7 +17,7 @@ svg {
     fill:white;
 }
 
-#app > .content {
-    height: 100%;
+:global(img) {
+    width: 24px;
+    height: 24px;
 }
-
