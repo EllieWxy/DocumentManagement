@@ -1,5 +1,5 @@
 import * as React from 'react'
-import style from './index.css'
+import style from './index.m.css'
 
 import Options from "./Options";
 import Operations from "./Operations";

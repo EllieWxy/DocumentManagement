@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './index.css'
+import './index.m.css'
 
 interface INodeTree {
     node: {
@@ -26,7 +26,7 @@ export default class NodeTree extends React.Component<INodeTree,{visible:boolean
     render(){
         let childNodes;
         if (this.props.node.child) {
-            const selectFid = this.props.selectId
+            const selectFid = this.props.selectId;
             childNodes = this.props.node.child.map(function(node:any, index:any){
                 return <li key={index}><NodeTree node={node} selectId={selectFid}/></li>
             })

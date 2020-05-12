@@ -28,8 +28,12 @@ module.exports = {
         loader: "awesome-typescript-loader"
       },
       {
-        test: /\.css$/,
+        test: /\.m\.css$/,
         use : [ 'style-loader', 'typings-for-css-modules-loader?modules&namedExport&camelCase']
+      },
+      {
+        test: /[^m]\.css$/,
+        use : [ 'style-loader', 'css-loader']
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,

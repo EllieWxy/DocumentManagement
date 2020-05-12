@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Input from 'components/Input'
-import style from './index.css'
+import style from './index.m.css'
 import login from 'apis/login'
 import userIcon from "img/user.svg"
 import passwordIcon from "img/password.svg"

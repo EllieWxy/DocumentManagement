@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './index.css'
+import style from './index.m.css'
 
 interface IPopUp {
     title:string,
@@ -25,23 +25,23 @@ export default class PopUps extends React.Component<IPopUp,{value:any,style:stri
         this.setState({value:event.target.value})
     }
 
-    close(){
-        this.setState({style:'hidden'})
-        this.render()
-        this.props.cancel.bind(this)
-    }
+    // close(){
+    //     this.setState({style:'hidden'})
+    //     this.render()
+    //     this.props.cancel.bind(this)
+    // }
 
     render(){
-        return <div className={'popUp ' + this.state.style}>
-            <div className='title'>{this.props.title}</div>
-            <div className='content'>
+        return <div className={this.props.visible ? 'popUp' : 'popUp hidden'}>
+            <div className={style.title}>{this.props.title}</div>
+            <div className={style.content}>
                 {this.props.type == 'input' ?
                 <input placeholder={this.props.content} onChange={this.changeValue.bind(this)}/>
                 : this.props.content}
                 </div>
-            <div className='operation'>
+            <div className={style.operation}>
                 <button className='ok' onClick={this.props.ok.bind(this)}>确定</button>
-                <button className='cancel' onClick={this.close.bind(this)}>取消</button>
+                <button className='cancel' onClick={this.props.cancel}>取消</button>
             </div>
         </div>
     }

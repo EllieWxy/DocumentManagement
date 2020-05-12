@@ -1,7 +1,7 @@
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Main } from './Main';
-import 'components/common.css'
+import 'components/common.m.css'
 
 
 export class App
