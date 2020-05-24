@@ -6,6 +6,7 @@ html {
 body,:global(#app){
     height: 100%;
     margin: 0;
+    background: #3A62D7;
 }
 
 :global(#app) {
@@ -18,6 +19,6 @@ svg {
 }
 
 :global(img) {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
 }

@@ -8,7 +8,7 @@ export interface IInputProps {
     changeValue:()=>any;
     value?:string;
     class?:string;
-    suffix?:string
+    suffix?:string;
 }
 
 
@@ -20,7 +20,8 @@ export default class Input extends React.Component<IInputProps,{}>{
 
         return <div className={style.input + " " + className}>
             {this.props.prefix == undefined ? null : <img src = {this.props.prefix} alt='icon'/>}
-            <input placeholder={placeholder} type={type} onChange={this.props.changeValue} />
+            <input placeholder={placeholder} type={type} onChange={this.props.changeValue}
+                    value = {this.props.value}/>
             {this.props.suffix == undefined ? null : <img src = {this.props.suffix} alt='suffix'/> }
         </div>
     }

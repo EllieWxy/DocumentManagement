@@ -29,7 +29,7 @@ module.exports = {
       },
       {
         test: /\.m\.css$/,
-        use : [ 'style-loader', 'typings-for-css-modules-loader?modules&namedExport&camelCase']
+        loader :'style-loader!css-loader?modules'
       },
       {
         test: /[^m]\.css$/,

@@ -4,6 +4,7 @@ import MDEditor from "components/MDEditor";
 import style from './index.m.css'
 import {getFileByID, updateFile} from "apis/file";
 import PopUps from "components/PopUps";
+import Content from "./Content";
 
 interface IWorkSpace {
     fid:string,
@@ -93,18 +94,18 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
                 {rightPage}
             </div>
             {/*弹窗*/}
-            <PopUps title='新建文件'
-                    content='请输入文件名'
-                    ok={function () {
-                        console.log(this.state.value)
-                        this.state.popUpVisible = false
-                    }.bind(this)}
-                    cancel={function () {
-                        debugger
-                        this.state.popUpVisible = false
-                    }.bind(this)}
-                    type='input'
-                    visible={this.state.popUpVisible}/>
+            {/*<PopUps title='新建文件'*/}
+            {/*        content='请输入文件名'*/}
+            {/*        ok={function () {*/}
+            {/*            console.log(this.state.value)*/}
+            {/*            this.state.popUpVisible = false*/}
+            {/*        }.bind(this)}*/}
+            {/*        cancel={function () {*/}
+            {/*            debugger*/}
+            {/*            this.state.popUpVisible = false*/}
+            {/*        }.bind(this)}*/}
+            {/*        type='input'*/}
+            {/*        visible={this.state.popUpVisible}/>*/}
         </div>
 
     }

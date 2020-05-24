@@ -59,7 +59,7 @@ export default class Sidebar extends React.Component<ISidebarProps,{node:node,se
             {this.props.detail == 'nodes'?
                 <div className={style.top}>
                     <Input placeholder='search...' type='text' class='hasBack' changeValue={this.changeSearchValue.bind(this)}
-                            suffix={searchIcon}/>
+                            suffix={searchIcon} value={this.state.searchValue}/>
                 </div> : null
             }
             {
@@ -69,14 +69,14 @@ export default class Sidebar extends React.Component<ISidebarProps,{node:node,se
                     </div> : null
             }
             {
-                this.props.detail == 'option' ?
-                  <div>
-                      <div className={style.information}>
-                          <div className={style.title}>{this.props.title}</div>
-                          <div className={style.club}>{this.props.club}</div>
-                      </div>
-                      <hr/>
-                  </div> : null
+                // this.props.detail == 'option' ?
+                //   <div>
+                //       <div className={style.information}>
+                //           <div className={style.title}>{this.props.title}</div>
+                //           <div className={style.club}>{this.props.club}</div>
+                //       </div>
+                //       <hr/>
+                //   </div> : null
             }
 
             {this.props.detail == 'option' ?

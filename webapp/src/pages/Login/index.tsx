@@ -39,9 +39,11 @@ export default class Login extends React.Component<{login:any},{user:string,pass
     render(){
         return <div className={style.container}>
             <Input prefix={userIcon} class='hasBack'
-                   placeholder='用户名' changeValue={this.updateUser.bind(this)} type='text'/>
+                   placeholder='用户名' changeValue={this.updateUser.bind(this)} type='text'
+                   value={this.state.user}/>
             <Input prefix={passwordIcon} class='hasBack'
-                   placeholder='密码' changeValue={this.updatePassword.bind(this)} type='password'/>
+                   placeholder='密码' changeValue={this.updatePassword.bind(this)} type='password'
+                   value={this.state.password}/>
             <div className={style.button} onClick={this.handleClick}>登 录</div>
         </div>
     }

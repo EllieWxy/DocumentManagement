@@ -10,7 +10,7 @@ export default class Options extends React.Component<IOptionsProps,{}>{
     render(){
         return <div className={style.option}>
             <img src={this.props.icon}/>
-            <div className={style.content}>{this.props.content}</div>
+            {/*<div className={style.content}>{this.props.content}</div>*/}
         </div>
     }
 }
