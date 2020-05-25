@@ -4,7 +4,7 @@ import MDEditor from "components/MDEditor";
 import style from './index.m.css'
 import {getFileByID, updateFile} from "apis/file";
 import PopUps from "components/PopUps";
-import Content from "./Content";
+import Drawer from "./Drawer";
 
 interface IWorkSpace {
     fid:string,
@@ -39,7 +39,7 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             if(this.state.renderFid === ''){
                 return;
             }
-            updateFile(this.state.renderFid,this.state.title,this.state.content).then((res: any) => {
+            updateFile(this.state.renderFid,{title:this.state.title,content:this.state.content,father:''}).then((res: any) => {
                 console.log(res)
             })
         }
@@ -74,12 +74,15 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         })
     }
 
+    //删除文件
+
+
 
     render(){
         let secondPage:any = <div></div>
         let rightPage:any = <div></div>
         if(this.state.select === '文档'){
-            secondPage = <Sidebar title={this.state.title || '无正在编辑文件'} club='' detail='nodes'
+            secondPage = <Drawer title={this.state.title || '无正在编辑文件'}
                                   selectFid={this.state.fid} changeSelect={this.changeSelected.bind(this)}
                                   getDetail={this.getAndRenderFile.bind(this)}/>
            rightPage =  <MDEditor renderFid={this.state.renderFid} content={this.state.content} getValue={this.updateContent.bind(this)}/>
@@ -87,8 +90,8 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         }
 
         return <div className={style.content}>
-            <Sidebar title='萝依' club='红色家园' detail='option' selectFid={this.state.fid}
-                     changeSelect={this.changeFirstPage.bind(this)} getDetail={null}/>
+            <Sidebar title='萝依' club='红色家园' detail='option'
+                     changeSelect={this.changeFirstPage.bind(this)}/>
             {secondPage}
             <div className={style.right}>
                 {rightPage}

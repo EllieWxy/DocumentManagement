@@ -22,7 +22,7 @@ export default class Input extends React.Component<IInputProps,{}>{
             {this.props.prefix == undefined ? null : <img src = {this.props.prefix} alt='icon'/>}
             <input placeholder={placeholder} type={type} onChange={this.props.changeValue}
                     value = {this.props.value}/>
-            {this.props.suffix == undefined ? null : <img src = {this.props.suffix} alt='suffix'/> }
+            {this.props.suffix == undefined ? null : <img src = {this.props.suffix} className={style.suffix} alt='suffix'/> }
         </div>
     }
 }

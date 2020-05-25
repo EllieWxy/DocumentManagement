@@ -1,15 +1,15 @@
-const config = require('../../../config.js')
-const url = config.baseUrl
+const config = require('../../config');
+const baseUrl = config.baseUrl;
 
-export default function fetch(path:string,method:string,body?:any):any {
-    let requestUrl = url + path;
+export default function fetch(path:string,method?:string,body?:any):any {
+    let requestUrl = baseUrl + path;
 
     return window.fetch(requestUrl,{
-        method:method,
+        method:method || 'GET',
         headers : {
             'Content-Type': 'application/json'
         },
-        body:JSON.stringify(body) || undefined
+        body:body && JSON.stringify(body) //考虑传headers或其他参数的情况
     }).then(res => {
         if(res.ok){
             return res.json()

@@ -1,38 +1,30 @@
 import fetch from './fetch'
 
 export interface IBaseFile {
-    title: String,
-    content: String
+    title: string,
+    content: string,
+    father: string
 }
+
 
 export interface IFile extends IBaseFile{
-    fid:String,
-    updateTime:Number,
-    createTime:Number
+    fid: string,
+    updateTime: number,
+    createTime: number
 }
 
-export function getFileByID(fid:string):Promise<IBaseFile> {
-    return fetch(`/file/${fid}`,'GET')
+export function getFileByID(fid:string):Promise<IFile> {
+    return fetch(`/file/${fid}`)
 }
 
-export function getFile(){
-    return fetch('/file','GET')
+export function getFile():any{
+    return fetch('/file')
 }
 
-export function updateFile(fid:string,title?:string,content?:string) {
-    let body = {
-        title:title || '',
-        content:content || ''
-    }
+export function updateFile(fid:string,body:IBaseFile) { //直接用IBaseFile 不需要类型校验
     return fetch(`/file/${fid}`,'PUT',body)
 }
 
-export function createFile(title:string,content?:string,father?:string) {
-    let body = {
-        title:title,
-        content:content || '',
-        father:father || ''
-    }
+export function createFile(body:IBaseFile) {
     return fetch('/file','POST',body)
-
 }

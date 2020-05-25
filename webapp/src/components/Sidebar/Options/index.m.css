@@ -1,6 +1,6 @@
 .option {
     cursor: pointer;
-    padding: 0 40px;
+    padding: 0 20px;
     margin: 20px 0;
 }
 
@@ -8,8 +8,8 @@
     display: inline-block;
 }
 
-svg {
-    height: 30px;
-    width: 30px;
+.icon {
+    height: 32px;
+    width: 32px;
     margin-right: 10px;
 }

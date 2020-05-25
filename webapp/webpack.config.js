@@ -14,7 +14,6 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx", ".json",".css"],
     alias: {
-      '@': path.resolve(__dirname, 'src'),
       components: path.resolve(__dirname, 'src/components/'),
       apis: path.resolve(__dirname, 'src/apis/'),
       pages: path.resolve(__dirname,'src/pages/'),
@@ -37,8 +36,18 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
+        exclude:[
+          path.resolve(__dirname, "src/components/MDEditor/img")
+        ],
         loader: 'file-loader',
       },
+      {
+        test: /\.svg$/,
+        include: [
+          path.resolve(__dirname, "src/components/MDEditor/img")
+        ],
+        use: 'raw-loader'
+      }
     ]
   },
   devServer: {
