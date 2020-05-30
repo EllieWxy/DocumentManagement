@@ -6,7 +6,6 @@ export interface IBaseFile {
     father: string
 }
 
-
 export interface IFile extends IBaseFile{
     fid: string,
     updateTime: number,
@@ -21,10 +20,14 @@ export function getFile():any{
     return fetch('/file')
 }
 
-export function updateFile(fid:string,body:IBaseFile) { //直接用IBaseFile 不需要类型校验
+export function updateFile(fid:string,body:IBaseFile) {
     return fetch(`/file/${fid}`,'PUT',body)
 }
 
 export function createFile(body:IBaseFile) {
     return fetch('/file','POST',body)
+}
+
+export function removeFile(fid:string) {
+    return fetch(`/file/${fid}`,'DELETE')
 }

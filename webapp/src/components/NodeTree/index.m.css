@@ -2,6 +2,6 @@
     padding: 10px;
 }
 
-.selected {
+:global(.selected) {
     background: darkcyan;
 }

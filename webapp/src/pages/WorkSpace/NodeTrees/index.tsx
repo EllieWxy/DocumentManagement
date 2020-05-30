@@ -17,9 +17,15 @@ export default class NodeTrees extends React.Component<INodeTrees,{}>{
     }
 
     render(){
-        const nodes = this.props.node.child.map((item:any) => {
-           return <NodeTree node={item} selectId={this.props.selectedFid}/>
-        })
-        return <div>{nodes}</div>
+        if(this.props.node && this.props.node.child){
+            const nodes = this.props.node.child.map((item:any) => {
+                return <NodeTree node={item} selectId={this.props.selectedFid}/>
+            })
+            return <div>{nodes}</div>
+        }
+        else {
+            return <div>当前文件树为空哦</div>
+        }
+
     }
 }

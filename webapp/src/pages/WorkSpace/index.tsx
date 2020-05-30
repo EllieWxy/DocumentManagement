@@ -2,9 +2,13 @@ import * as React from 'react'
 import Sidebar from "components/Sidebar";
 import MDEditor from "components/MDEditor";
 import style from './index.m.css'
-import {getFileByID, updateFile} from "apis/file";
-import PopUps from "components/PopUps";
+import {getFileByID, updateFile, removeFile, getFile} from "apis/file";
 import Drawer from "./Drawer";
+import {message,Modal} from 'antd';
+import 'antd/dist/antd.css';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+const { confirm } = Modal;
 
 interface IWorkSpace {
     fid:string,
@@ -12,7 +16,13 @@ interface IWorkSpace {
     content:string,
     renderFid:string,
     select:string,
-    popUpVisible:boolean
+    popUpVisible:boolean,
+    node:{
+        fid:string,
+        title:string,
+        content:string
+        child:[]
+    }
 }
 
 export default class WorkSpace extends React.Component<{},IWorkSpace>{
@@ -24,8 +34,17 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             content:'',
             renderFid:'',
             select :'文档',
-            popUpVisible:false
+            popUpVisible:false,
+            node:{
+                fid:'',
+                title:'',
+                content:'',
+                child:[]
+            }
         }
+        getFile().then((res:any) => {
+            this.setState({node:res})
+        })
     }
 
     changeSelected(event:any){
@@ -34,32 +53,14 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             this.setState({fid:event.target.id})
             return
         }
-        //保存文件
-        if(this.ifHaveClass(event,'save')){
-            if(this.state.renderFid === ''){
-                return;
-            }
-            updateFile(this.state.renderFid,{title:this.state.title,content:this.state.content,father:''}).then((res: any) => {
-                console.log(res)
-            })
-        }
         //新增文件
-        if(this.ifHaveClass(event,'add')){
-            this.setState({popUpVisible:true})
-        }
+
     }
 
-    ifHaveClass(event:any,className:string){
-        if(event.target.parentElement.parentElement.classList.contains(className) ||
-        event.target.parentElement.classList.contains(className)){
-            return true
-        }
-        return false
-    }
 
     changeFirstPage(event:any){
         //切换一级页面
-        this.setState({select:event.target.innerText})
+        this.setState({select:event.target.dataset.id})
     }
 
     //输入的时候对content进行更新
@@ -73,9 +74,38 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             this.setState({renderFid:res.fid,title:res.title,content:res.content})
         })
     }
-
     //删除文件
+    removeFile(){
+        const that = this
+        confirm({
+            title: `确定删除文件${that.state.title}吗？`,
+            icon: <ExclamationCircleOutlined />,
+            content: '此操作不可撤销',
+            onOk() {
+                removeFile(that.state.fid).then((res:any) => {
+                    that.setState({renderFid:'',title:'',content:''})
+                })
+                getFile().then((res:any) => {
+                    that.setState({node:res})
+                })
+                message.success('删除成功');
+            },
+            onCancel() {
+                debugger
+                console.log('Cancel');
+            },
+        });
 
+    }
+    //保存文件
+    updateFile(){
+        updateFile(this.state.fid,
+            {title:this.state.title,content:this.state.content,father:undefined}).then((res:any) =>{
+            message.success('保存成功');
+        })
+    }
+
+    //添加文件
 
 
     render(){
@@ -83,9 +113,11 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         let rightPage:any = <div></div>
         if(this.state.select === '文档'){
             secondPage = <Drawer title={this.state.title || '无正在编辑文件'}
+                                 node = {this.state.node}
                                   selectFid={this.state.fid} changeSelect={this.changeSelected.bind(this)}
                                   getDetail={this.getAndRenderFile.bind(this)}/>
-           rightPage =  <MDEditor renderFid={this.state.renderFid} content={this.state.content} getValue={this.updateContent.bind(this)}/>
+           rightPage =  <MDEditor renderFid={this.state.renderFid} content={this.state.content} getValue={this.updateContent.bind(this)}
+                         removeFile={this.removeFile.bind(this)} saveFile={this.updateFile.bind(this)}/>
 
         }
 
@@ -96,19 +128,6 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             <div className={style.right}>
                 {rightPage}
             </div>
-            {/*弹窗*/}
-            {/*<PopUps title='新建文件'*/}
-            {/*        content='请输入文件名'*/}
-            {/*        ok={function () {*/}
-            {/*            console.log(this.state.value)*/}
-            {/*            this.state.popUpVisible = false*/}
-            {/*        }.bind(this)}*/}
-            {/*        cancel={function () {*/}
-            {/*            debugger*/}
-            {/*            this.state.popUpVisible = false*/}
-            {/*        }.bind(this)}*/}
-            {/*        type='input'*/}
-            {/*        visible={this.state.popUpVisible}/>*/}
         </div>
 
     }

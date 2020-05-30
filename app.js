@@ -4,6 +4,7 @@ const static = require('koa-static');
 const mongoose = require("mongoose");
 const mongooseStore = require('koa-session-mongoose');
 const session = require('koa-session');
+const logger = require('koa-logger')
 const path = require('path');
 
 const middleware = require('./utils/middleware');
@@ -31,6 +32,7 @@ app.use(async function(ctx,next) {
 })
 app.keys = config.keys
 
+app.use(logger())
 app.use(bodyParser());
 app.use(static(path.join(__dirname)))
 app.use(session({store :new mongooseStore()},app))

@@ -1,7 +1,5 @@
 import * as React from "react";
 import Vditor from "vditor";
-// @ts-ignore
-// import * as icons from 'img/icons'
 import removeSvg from './img/remove.svg'
 import saveSvg from './img/save.svg'
 import "vditor/dist/index.css";
@@ -9,7 +7,9 @@ import "vditor/dist/index.css";
 interface IMDEditor {
   renderFid:string,
   content:string,
-  getValue:()=>any
+  getValue:() => any,
+  saveFile:() => any,
+  removeFile:() => any
 }
 
 export default class MDEditor extends React.Component<IMDEditor, any> {
@@ -29,7 +29,7 @@ export default class MDEditor extends React.Component<IMDEditor, any> {
       toolbarConfig: {
         // hide: true
       },
-      toolbar:["emoji", "headings", "bold", "italic", "strike", "link", "|",
+      toolbar:["emoji", "headings", "bold", "italic", "link", "|",
         "list", "ordered-list", "check", "outdent", "indent", "|",
         "quote", "line", "code", "inline-code", "insert-before", "insert-after", "|",
         "upload", "record", "table", "|",
@@ -42,17 +42,17 @@ export default class MDEditor extends React.Component<IMDEditor, any> {
           className: '',
           icon: removeSvg,
           click: () => {
-            alert('remove the file')
+            this.props.removeFile()
           }},
         {
-          hotkey: '⌘-s',
-          name: 'remove',
+          hotkey: 'ctrl-s',
+          name: 'save',
           tipPosition: 'ne',
           tip: '保存此文件',
           className: '',
           icon: saveSvg,
           click: () => {
-            alert('remove the file')
+            this.props.saveFile()
           }}
           ],
       input: this.props.getValue //valueOnChange

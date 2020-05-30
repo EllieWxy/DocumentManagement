@@ -9,6 +9,7 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
+    "antd": "^4.2.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "vditor": "^3.1.14"

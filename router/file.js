@@ -1,6 +1,5 @@
 const Router = require('koa-router');
 const File = require('../modules/file');
-const config = require('../config');
 const JSONError = require('../utils/JSONError');
 
 const router = new Router({

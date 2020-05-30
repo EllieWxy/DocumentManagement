@@ -7,7 +7,8 @@ interface IPopUp {
     ok:() => any,
     cancel:() => any,
     type:string,
-    visible:boolean
+    visible:boolean,
+    // inputValue:string
 }
 
 export default class PopUps extends React.Component<IPopUp,{value:any,style:string,visible:boolean}>{
@@ -32,11 +33,13 @@ export default class PopUps extends React.Component<IPopUp,{value:any,style:stri
     // }
 
     render(){
-        return <div className={this.props.visible ? 'popUp' : 'popUp hidden'}>
+        return <div className={style.popUp}>
             <div className={style.title}>{this.props.title}</div>
             <div className={style.content}>
                 {this.props.type == 'input' ?
-                <input placeholder={this.props.content} onChange={this.changeValue.bind(this)}/>
+                <input placeholder={this.props.content} onChange={this.changeValue.bind(this)}
+                       // value={this.props.inputValue}
+                />
                 : this.props.content}
                 </div>
             <div className={style.operation}>
