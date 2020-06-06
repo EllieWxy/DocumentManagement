@@ -9,23 +9,24 @@ export interface IBaseFile {
 export interface IFile extends IBaseFile{
     fid: string,
     updateTime: number,
-    createTime: number
+    createTime: number,
+    childNodes?: object
 }
 
 export function getFileByID(fid:string):Promise<IFile> {
     return fetch(`/file/${fid}`)
 }
 
-export function getFile():any{
+export function getFile():Promise<IFile>{
     return fetch('/file')
 }
 
-export function updateFile(fid:string,body:IBaseFile) {
-    return fetch(`/file/${fid}`,'PUT',body)
+export function updateFile(fid:string,baseFile:IBaseFile) {
+    return fetch(`/file/${fid}`,'PUT',baseFile)
 }
 
-export function createFile(body:IBaseFile) {
-    return fetch('/file','POST',body)
+export function createFile(baseFile:IBaseFile) {
+    return fetch('/file','POST',baseFile)
 }
 
 export function removeFile(fid:string) {

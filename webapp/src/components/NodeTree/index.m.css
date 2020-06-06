@@ -1,7 +1,0 @@
-.nodeTree{
-    padding: 10px;
-}
-
-:global(.selected) {
-    background: darkcyan;
-}

@@ -19,3 +19,7 @@
     display: flex;
     align-items: center;
 }
+
+:global(.ant-tree-list) svg{
+    fill:black;
+}

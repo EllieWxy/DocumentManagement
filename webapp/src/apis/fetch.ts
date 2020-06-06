@@ -1,7 +1,7 @@
-const config = require('../../config');
+import config from '../../config';
 const baseUrl = config.baseUrl;
 
-export default function fetch(path:string,method?:string,body?:any):any {
+export default function fetch(path:string,method?:string,body?:object) {
     let requestUrl = baseUrl + path;
 
     return window.fetch(requestUrl,{

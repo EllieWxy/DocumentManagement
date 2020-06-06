@@ -16,13 +16,6 @@ export default class MDEditor extends React.Component<IMDEditor, any> {
   rootRef = React.createRef<HTMLDivElement>();
   vditor: Vditor | null = null;
 
-  constructor(props:any){
-    super(props)
-    this.state = {
-      content:''
-    }
-  }
-
   componentDidMount() {
     this.vditor = new Vditor(this.rootRef.current, {
       cache: { enable: false },

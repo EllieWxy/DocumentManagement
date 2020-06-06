@@ -28,13 +28,14 @@ exports.ifHaveChild = function (fid) {
 getFiles = async function (cid, fid) {
   const res = await fileModel.find({cid: cid, fid: fid},{title:1,fid:1,childNodes:1})
   let tree = res[0]
-  if (!tree || tree.childNodes.length === 0) {
+  if (!tree) {
     return tree
   }
+  tree["_doc"]["key"] = tree["_doc"]["fid"]
 
-  tree["_doc"]["child"] = []
+  tree["_doc"]["children"] = []
   for(item of tree.childNodes){
-    tree["_doc"]["child"].push(await getFiles(cid, item.fid));
+    tree["_doc"]["children"].push(await getFiles(cid, item.fid));
   }
   return tree
 }

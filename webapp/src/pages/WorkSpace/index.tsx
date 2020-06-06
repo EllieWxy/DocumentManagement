@@ -14,15 +14,15 @@ interface IWorkSpace {
     fid:string,
     title:string,
     content:string,
-    renderFid:string,
+    // renderFid:string,
     select:string,
     popUpVisible:boolean,
-    node:{
+    node:[{
         fid:string,
         title:string,
         content:string
-        child:[]
-    }
+        children:[]
+    }]
 }
 
 export default class WorkSpace extends React.Component<{},IWorkSpace>{
@@ -32,33 +32,28 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             fid:'',
             title:'',
             content:'',
-            renderFid:'',
+            // renderFid:'',
             select :'文档',
             popUpVisible:false,
-            node:{
+            node:[{
                 fid:'',
                 title:'',
                 content:'',
-                child:[]
-            }
+                children:[]
+            }]
         }
         getFile().then((res:any) => {
             this.setState({node:res})
         })
     }
 
-    changeSelected(event:any){
+    changeSelected(fid:string){
         //切换选中文件
-        if(event.target.classList.contains('node')){
-            this.setState({fid:event.target.id})
-            return
-        }
-        //新增文件
-
+        this.setState({fid:fid})
     }
 
 
-    changeFirstPage(event:any){
+    handleClick(event:any){
         //切换一级页面
         this.setState({select:event.target.dataset.id})
     }
@@ -69,11 +64,12 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
     }
 
     //双击时对文件内容进行渲染
-    getAndRenderFile(event:any){
-       getFileByID(event.target.id).then((res: { fid: any; title: any; content: any; }) => {
-            this.setState({renderFid:res.fid,title:res.title,content:res.content})
+    getAndRenderFile(fid:string){
+       getFileByID(fid).then((res: { fid: any; title: any; content: any; }) => {
+            this.setState({fid:res.fid,title:res.title,content:res.content})
         })
     }
+
     //删除文件
     removeFile(){
         const that = this
@@ -83,7 +79,7 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             content: '此操作不可撤销',
             onOk() {
                 removeFile(that.state.fid).then((res:any) => {
-                    that.setState({renderFid:'',title:'',content:''})
+                    that.setState({fid:'',title:'',content:''})
                 })
                 getFile().then((res:any) => {
                     that.setState({node:res})
@@ -91,7 +87,6 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
                 message.success('删除成功');
             },
             onCancel() {
-                debugger
                 console.log('Cancel');
             },
         });
@@ -116,14 +111,14 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
                                  node = {this.state.node}
                                   selectFid={this.state.fid} changeSelect={this.changeSelected.bind(this)}
                                   getDetail={this.getAndRenderFile.bind(this)}/>
-           rightPage =  <MDEditor renderFid={this.state.renderFid} content={this.state.content} getValue={this.updateContent.bind(this)}
+           rightPage =  <MDEditor renderFid={this.state.fid} content={this.state.content} getValue={this.updateContent.bind(this)}
                          removeFile={this.removeFile.bind(this)} saveFile={this.updateFile.bind(this)}/>
 
         }
 
         return <div className={style.content}>
             <Sidebar title='萝依' club='红色家园' detail='option'
-                     changeSelect={this.changeFirstPage.bind(this)}/>
+                     onClick={this.handleClick.bind(this)}/>
             {secondPage}
             <div className={style.right}>
                 {rightPage}

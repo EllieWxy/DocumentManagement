@@ -13,10 +13,9 @@ export default class Login extends React.Component<{login:any},{user:string,pass
             user:'',
             password:'',
         }
-        this.handleClick= this.handleClick.bind(this);
     }
 
-    handleClick = (event:any):void => {
+    handleClick = (event:any) => {   // = 放在实例上
         event.preventDefault();
         login(this.state.user,this.state.password).then(res => {
             if(res.message == '登录成功！'){
@@ -28,21 +27,21 @@ export default class Login extends React.Component<{login:any},{user:string,pass
         })
     }
 
-    updateUser(event : React.ChangeEvent<HTMLInputElement>):void{
+    updateUser(event : React.ChangeEvent<HTMLInputElement>){ //放在原型上
         this.setState({user: event.target.value});
     }
 
-    updatePassword(event : React.ChangeEvent<HTMLInputElement>):void{
+    updatePassword(event : React.ChangeEvent<HTMLInputElement>){   //bind会每次都返回新函数
         this.setState({password: event.target.value});
     }
 
     render(){
         return <div className={style.container}>
-            <Input prefix={userIcon} class='hasBack'
-                   placeholder='用户名' changeValue={this.updateUser.bind(this)} type='text'
+            <Input prefix={userIcon} className='hasBack'
+                   placeholder='用户名' onChange={this.updateUser.bind(this)} type='text'
                    value={this.state.user}/>
-            <Input prefix={passwordIcon} class='hasBack'
-                   placeholder='密码' changeValue={this.updatePassword.bind(this)} type='password'
+            <Input prefix={passwordIcon} className='hasBack'
+                   placeholder='密码' onChange={this.updatePassword.bind(this)} type='password'
                    value={this.state.password}/>
             <div className={style.button} onClick={this.handleClick}>登 录</div>
         </div>

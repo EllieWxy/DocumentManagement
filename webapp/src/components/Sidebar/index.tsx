@@ -9,16 +9,16 @@ export interface ISidebarProps {
     title: string,
     club: string,
     detail: string,
-    changeSelect: () => any,
+    onClick: () => any,
 }
 
 
 export default class Sidebar extends React.Component<ISidebarProps, {}> {
 
-
+    //每一个设置一个onClick
     render() {
         return <div className={style.sidebar}>
-            <div onClick={this.props.changeSelect}>
+            <div onClick={this.props.onClick}>
                 <Options icon={documentIcon} content='文档'/>
                 <Options icon={settingIcon} content='设置'/>
             </div>
