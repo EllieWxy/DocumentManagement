@@ -32,3 +32,7 @@ export function createFile(baseFile:IBaseFile) {
 export function removeFile(fid:string) {
     return fetch(`/file/${fid}`,'DELETE')
 }
+
+export function searchFile(search:string) {
+    return fetch(`/file/search/${search}`)
+}

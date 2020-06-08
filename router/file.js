@@ -13,7 +13,7 @@ const router = new Router({
 
 
 router.post('/',async function (ctx) {
-  const {father,title,content,key} = ctx.request.body;
+  const {father,title,content,keyword} = ctx.request.body;
   // const {cid} = ctx.session;
   const cid = 1;
   const fidDocs = await File.getNextSequenceValue("file");
@@ -27,7 +27,7 @@ router.post('/',async function (ctx) {
     throw new JSONError('父文件不存在')
     return
   }
-  await File.addFile(fid,cid,title,content,father,key);
+  await File.addFile(fid,cid,title,content,father,keyword);
   ctx.response.body = '文章创建成功';
 })
 
@@ -55,6 +55,13 @@ router.get('/:id',async function (ctx) {
   // const cid = ctx.session.cid;
   const cid = 1;
   const result = await File.getFileByID(cid,fid)
+  ctx.response.body = result
+})
+
+router.get('/search/:search',async function (ctx) {
+  const searchValue = ctx.params.search
+  const cid = 1;
+  const result = await File.searchFile(cid,searchValue)
   ctx.response.body = result
 })
 

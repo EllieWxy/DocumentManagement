@@ -6,14 +6,15 @@ exports.getNextSequenceValue = function (sequenceName) {
   return countersModel.findOneAndUpdate({name: sequenceName}, {$inc: {id: 1}}, {new: true});
 }
 
-exports.addFile = function (fid, cid, title, content, father, key) {
+exports.addFile = function (fid, cid, title, content, father, keyword) {
   fileModel.create({
     fid: fid,
     cid: cid,
     title: title,
     content: content,
     father: father,
-    key: key
+    keyword: keyword,
+    key:fid,
   })
 }
 
@@ -58,5 +59,10 @@ exports.deleteFile = function (cid,fid) {
     await fileModel.deleteOne({cid:cid,fid:fid})
     return await fileModel.updateOne({fid:res.father},{$pull:{childNodes:{fid:fid}}})
   })
+}
+
+exports.searchFile = function (cid,search) {
+  return fileModel.find({$or:[{title:{$regex:search,'$options':'i'}},
+      {content:{$regex: search,'$options':'i'}},{keyword:{$regex: search,'$options':'i'}}]})
 }
 

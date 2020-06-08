@@ -10,7 +10,6 @@ import {createFile} from "apis/file";
 import style from "./index.m.css"
 
 const { confirm } = Modal;
-const { TreeNode } = Tree;
 
 export interface IDrawer {
     selectFid:string,
@@ -18,22 +17,18 @@ export interface IDrawer {
     changeSelect:() => any,
     getDetail:(fid:string) => any,
     node:any
+    handleSuffix:() => any,
+    search?:string
+    onChangeSearch:()=>any
 }
 
-export default class Drawer extends React.Component<IDrawer,{searchValue:string,newFileName:string}>{
+export default class Drawer extends React.Component<IDrawer,{newFileName:string}>{
 
     constructor(props:any){
         super(props)
         this.state = {
-            searchValue : '',
             newFileName : ''
         }
-    }
-
-    changeSearchValue = (event:any) => {
-        this.setState({
-            searchValue:event.target.value
-        })
     }
 
     changeFileName = (event:any) => {
@@ -65,24 +60,17 @@ export default class Drawer extends React.Component<IDrawer,{searchValue:string,
     render(){
         const onSelect = (selectedKeys:any) => {
             this.props.getDetail(selectedKeys)
-
-        };
-
-        const onCheck = (checkedKeys:any, info:any) => {
-            console.log('onCheck', checkedKeys, info);
         };
 
         return <div onClick={this.drawerClick} className={style.drawer}>
             <div className={style.top}>
-                <Input placeholder='search...' type='text' className='hasBack' onChange={this.changeSearchValue.bind(this)}
-                       suffix={searchIcon} value={this.state.searchValue}/>
+                <Input placeholder='search...' type='text' className='hasBack' onChange={this.props.onChangeSearch}
+                       suffix={searchIcon} value={this.props.search} onSuffix={this.props.handleSuffix}/>
                 <Operation icon={addIcon} className='add'/>
             </div>
             <div onClick={this.props.changeSelect} className={style.nodeTree}>
                 <div className={style.title}>{this.props.title}</div>
                 <hr/>
-                {/*<NodeTrees node={this.props.node}*/}
-                {/*           selectedFid={this.props.selectFid}/></div>*/}
             <Tree
                 onSelect={onSelect}
                 treeData={this.props.node}

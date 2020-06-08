@@ -2,7 +2,7 @@ import * as React from 'react'
 import Sidebar from "components/Sidebar";
 import MDEditor from "components/MDEditor";
 import style from './index.m.css'
-import {getFileByID, updateFile, removeFile, getFile} from "apis/file";
+import {getFileByID, updateFile, removeFile, getFile, searchFile} from "apis/file";
 import Drawer from "./Drawer";
 import {message,Modal} from 'antd';
 import 'antd/dist/antd.css';
@@ -17,6 +17,7 @@ interface IWorkSpace {
     // renderFid:string,
     select:string,
     popUpVisible:boolean,
+    search:string,
     node:[{
         fid:string,
         title:string,
@@ -35,6 +36,7 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             // renderFid:'',
             select :'文档',
             popUpVisible:false,
+            search:'',
             node:[{
                 fid:'',
                 title:'',
@@ -63,11 +65,27 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         this.setState({content:value})
     }
 
-    //双击时对文件内容进行渲染
+    //选中时对文件内容进行渲染
     getAndRenderFile(fid:string){
        getFileByID(fid).then((res: { fid: any; title: any; content: any; }) => {
             this.setState({fid:res.fid,title:res.title,content:res.content})
         })
+    }
+
+    handleSuffix = ()=>{
+        if(this.state.search === ''){
+            getFile().then((res:any) => {
+                this.setState({node:res})
+            })
+        } else {
+            searchFile(this.state.search).then(res => {
+                this.setState({node:res})
+            })
+        }
+    }
+
+    handleChangeSearch = (event:any) => {
+        this.setState({search:event.target.value})
     }
 
     //删除文件
@@ -100,9 +118,6 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         })
     }
 
-    //添加文件
-
-
     render(){
         let secondPage:any = <div></div>
         let rightPage:any = <div></div>
@@ -110,7 +125,10 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             secondPage = <Drawer title={this.state.title || '无正在编辑文件'}
                                  node = {this.state.node}
                                   selectFid={this.state.fid} changeSelect={this.changeSelected.bind(this)}
-                                  getDetail={this.getAndRenderFile.bind(this)}/>
+                                  getDetail={this.getAndRenderFile.bind(this)}
+                                handleSuffix={this.handleSuffix.bind(this)}
+                                search = {this.state.search}
+                                onChangeSearch={this.handleChangeSearch.bind(this)}/>
            rightPage =  <MDEditor renderFid={this.state.fid} content={this.state.content} getValue={this.updateContent.bind(this)}
                          removeFile={this.removeFile.bind(this)} saveFile={this.updateFile.bind(this)}/>
 

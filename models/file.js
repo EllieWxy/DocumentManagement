@@ -7,10 +7,11 @@ exports.fileSchema = new db.Schema({
   title:String,
   father:String,
   fid:String,
+  key:String,
   tags:[Number],
   createTime:Date,
   updateTime:Date,
-  key:String,
+  keyword:String,
   childNodes:[{
     title: String,
     fid:String
