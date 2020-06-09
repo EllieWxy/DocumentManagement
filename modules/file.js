@@ -52,12 +52,24 @@ exports.updateFile = function (cid,fid,content) {
 }
 
 exports.deleteFile = function (cid,fid) {
-  return fileModel.findOne({fid: fid}).then(async res => {
+  return fileModel.findOne({cid:cid,fid: fid}).then(async res => {
     if(res === null){
       throw new JSONError('文档不存在',403)
     }
+    deleteFiles(cid,fid)
     await fileModel.deleteOne({cid:cid,fid:fid})
     return await fileModel.updateOne({fid:res.father},{$pull:{childNodes:{fid:fid}}})
+  })
+}
+
+deleteFiles = function(cid,fid){
+  return fileModel.findOne({cid:cid,fid:fid}).then(async  res => {
+    if(res.childNodes && res.childNodes.length > 0){
+      res.childNodes.forEach(async item => {
+        await deleteFiles(cid,item.fid);
+      })
+      await fileModel.deleteOne(cid,fid)
+    }
   })
 }
 

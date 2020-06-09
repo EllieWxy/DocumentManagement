@@ -61,7 +61,7 @@ export default class Drawer extends React.Component<IDrawer,{newFileName:string}
         const onSelect = (selectedKeys:any) => {
             this.props.getDetail(selectedKeys)
         };
-
+        
         return <div onClick={this.drawerClick} className={style.drawer}>
             <div className={style.top}>
                 <Input placeholder='search...' type='text' className='hasBack' onChange={this.props.onChangeSearch}
@@ -71,10 +71,12 @@ export default class Drawer extends React.Component<IDrawer,{newFileName:string}
             <div onClick={this.props.changeSelect} className={style.nodeTree}>
                 <div className={style.title}>{this.props.title}</div>
                 <hr/>
-            <Tree
-                onSelect={onSelect}
-                treeData={this.props.node}
-            />
+                {this.props.node.length > 0 ?
+                    <Tree
+                    onSelect={onSelect}
+                    treeData={this.props.node}
+                /> : <div>这里空空如也诶</div>}
+
             </div>
         </div>
     }
