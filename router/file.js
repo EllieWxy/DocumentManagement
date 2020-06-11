@@ -42,7 +42,11 @@ router.get('/',async function (ctx) {
   const cid = 1;
   const father = ctx.query.father || 'redhome'
   const result = await File.getFiles(cid,father)
-  ctx.response.body = result._doc.children || []
+  if(result && result._doc.children){
+    ctx.response.body = result._doc.children
+  } else {
+    ctx.response.body = []
+  }
 })
 
 /**
