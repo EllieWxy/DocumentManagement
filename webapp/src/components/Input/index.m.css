@@ -4,6 +4,7 @@
 
 .input {
     display: flex;
+    margin-top: 10px;
 }
 
 .input:global(.hasBack){

@@ -19,7 +19,8 @@ export interface IDrawer {
     node:any
     handleSuffix:() => any,
     search?:string
-    onChangeSearch:()=>any
+    onChangeSearch:()=>any,
+    getFiles?:() => any,
 }
 
 export default class Drawer extends React.Component<IDrawer,{newFileName:string}>{
@@ -40,6 +41,7 @@ export default class Drawer extends React.Component<IDrawer,{newFileName:string}
     handleClickAdd = ()=>{
         const that = this
         const fileFather = this.props.title === '无正在编辑文件' ? 'redhome' : this.props.title;
+        const fidFather = this.props.selectFid || undefined
         confirm({
             title: `请输入文件名`,
             icon: <ExclamationCircleOutlined />,
@@ -49,10 +51,11 @@ export default class Drawer extends React.Component<IDrawer,{newFileName:string}
                   <Input type='text' placeholder='新建文件' onChange={that.changeFileName.bind(that)}/>
               </div>,
             onOk() {
-                createFile({title:that.state.newFileName,content:'',father:that.props.selectFid})
+                createFile({title:that.state.newFileName,content:'',father:fidFather})
                     .then((res:any) => {
-                        if(res === '创建文件成功'){
-                            message.success('创建文件成功')
+                        if(res.message === '文章创建成功'){
+                            message.success('文章创建成功')
+                            that.props.getFiles()
                         } else {
                             message.error(res)
                         }
@@ -73,6 +76,7 @@ export default class Drawer extends React.Component<IDrawer,{newFileName:string}
                 <Input placeholder='search...' type='text' className='hasBack' onChange={this.props.onChangeSearch}
                        suffix={searchIcon} value={this.props.search} onSuffix={this.props.handleSuffix}/>
                 <Operation icon={addIcon} className='add' handleClick={this.handleClickAdd.bind(this)}/>
+
             </div>
             <div onClick={this.props.changeSelect} className={style.nodeTree}>
                 <div className={style.title}>{this.props.title}</div>

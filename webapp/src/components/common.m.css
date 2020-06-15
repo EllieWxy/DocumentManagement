@@ -6,16 +6,10 @@ html {
 body,:global(#app){
     height: 100%;
     margin: 0;
-    /*background: #3A62D7;*/
 }
 
 :global(#app) {
     position: relative;
-}
-
-svg {
-    vertical-align: middle;
-    fill:white;
 }
 
 :global(img) {

@@ -57,7 +57,6 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         this.setState({fid:fid})
     }
 
-
     handleClickContent(event:any){
         //切换一级页面
         this.setState({select:'文档'})
@@ -97,6 +96,10 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
 
     //删除文件
     removeFile(){
+        if(this.state.fid === ''){
+            message.error('没有可以删除的文件');
+            return;
+        }
         const that = this
         confirm({
             title: `确定删除文件${that.state.title}吗？`,
@@ -110,17 +113,25 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
                     that.setState({node:res})
                 })
                 message.success('删除成功');
-            },
-            onCancel() {
-            },
+            }
         });
 
     }
     //保存文件
     updateFile(){
+        if(this.state.fid === ''){
+            message.error('没有可以保存的文件');
+            return;
+        }
         updateFile(this.state.fid,
             {title:this.state.title,content:this.state.content,father:undefined}).then((res:any) =>{
             message.success('保存成功');
+        })
+    }
+    //每次更新后重新获取文件
+    updateFileTree(){
+        getFile().then((res:any) => {
+            this.setState({node:res})
         })
     }
 
@@ -134,7 +145,8 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
                                   getDetail={this.getAndRenderFile.bind(this)}
                                 handleSuffix={this.handleSuffix.bind(this)}
                                 search = {this.state.search}
-                                onChangeSearch={this.handleChangeSearch.bind(this)}/>
+                                onChangeSearch={this.handleChangeSearch.bind(this)}
+                                getFiles={this.updateFileTree.bind(this)}/>
            rightPage =  <MDEditor renderFid={this.state.fid} content={this.state.content} getValue={this.updateContent.bind(this)}
                          removeFile={this.removeFile.bind(this)} saveFile={this.updateFile.bind(this)}/>
 
