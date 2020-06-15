@@ -1,6 +1,11 @@
 .input > input {
     border: 1px solid #bbb;
 }
+
+.input {
+    display: flex;
+}
+
 .input:global(.hasBack){
     background-color: rgba(255,255,255,0.3);
     border-radius: 100px;
@@ -14,13 +19,6 @@
     background: none;
     color: white;
 }
-
-/*img {*/
-/*    height: 24px;*/
-/*    width: 24px;*/
-/*    vertical-align: middle;*/
-/*    margin: 4px 8px;*/
-/*}*/
 
 .suffix {
     padding: 4px 0;

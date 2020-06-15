@@ -14,7 +14,6 @@ interface IWorkSpace {
     fid:string,
     title:string,
     content:string,
-    // renderFid:string,
     select:string,
     popUpVisible:boolean,
     search:string,
@@ -33,7 +32,6 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             fid:'',
             title:'',
             content:'',
-            // renderFid:'',
             select :'文档',
             popUpVisible:false,
             search:'',
@@ -45,6 +43,11 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             }]
         }
         getFile().then((res:any) => {
+            if(res === '未登录'){
+                message.error('请先进行登录')
+                location.href = location.origin + '/login'
+                return
+            }
             this.setState({node:res})
         })
     }
@@ -55,9 +58,13 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
     }
 
 
-    handleClick(event:any){
+    handleClickContent(event:any){
         //切换一级页面
-        this.setState({select:event.target.dataset.id})
+        this.setState({select:'文档'})
+    }
+    handleClickSetting(event:any){
+        //切换一级页面
+        this.setState({select:'设置'})
     }
 
     //输入的时候对content进行更新
@@ -105,7 +112,6 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
                 message.success('删除成功');
             },
             onCancel() {
-                console.log('Cancel');
             },
         });
 
@@ -136,7 +142,8 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
 
         return <div className={style.content}>
             <Sidebar title='萝依' club='红色家园' detail='option'
-                     onClick={this.handleClick.bind(this)}/>
+                     onClickContent={this.handleClickContent.bind(this)}
+                     onClickSetting={this.handleClickSetting.bind(this)}/>
             {secondPage}
             <div className={style.right}>
                 {rightPage}

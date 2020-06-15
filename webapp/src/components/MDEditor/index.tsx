@@ -50,7 +50,6 @@ export default class MDEditor extends React.Component<IMDEditor, any> {
           ],
       input: this.props.getValue //valueOnChange
     });
-    console.log(removeSvg)
   }
 
   componentDidUpdate(prevProps:any){

@@ -1,8 +1,9 @@
 .right {
-    margin-left: 380px;
     padding: 20px;
+    flex: 1;
 }
 
 .content {
     height: 100%;
+    display: flex;
 }

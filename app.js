@@ -21,7 +21,6 @@ app.use(async function(ctx,next) {
   try {
    await next()
   } catch (err) {
-    console.log(err);
     if(err instanceof JSONError) {
       ctx.response.body = err.message;
       ctx.response.status = err.status;
@@ -37,9 +36,11 @@ app.use(bodyParser());
 app.use(static(path.join(__dirname)))
 app.use(session({store :new mongooseStore()},app))
 
-// app.use(middleware.checkLogin)
 app.use(common.routes())
+app.use(middleware.checkLogin)
 app.use(file.routes())
 
 app.listen(config.PORT);
-console.log('DM start');
+if(config.nodeEnv === 'dev'){
+  console.log('DM start');
+}

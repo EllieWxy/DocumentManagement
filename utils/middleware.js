@@ -1,8 +1,8 @@
 const JSONError = require('./JSONError')
 
-exports.checkLogin = function (ctx,next) {
+exports.checkLogin = async function (ctx,next) {
   if(!ctx.session.user){
-    throw new JSONError('请先进行登录',403)
+    throw new JSONError('未登录',401)
   }
-  next()
+  await next()
 }

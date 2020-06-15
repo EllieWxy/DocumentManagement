@@ -37,10 +37,8 @@ router.post('/',async function (ctx) {
  */
 
 router.get('/',async function (ctx) {
-  // const father = ctx.query.father || ctx.session.club;
-  // const cid = ctx.session.cid;
-  const cid = 1;
-  const father = ctx.query.father || 'redhome'
+  const father = ctx.query.father || ctx.session.club;
+  const cid = ctx.session.cid;
   const result = await File.getFiles(cid,father)
   if(result && result._doc.children){
     ctx.response.body = result._doc.children

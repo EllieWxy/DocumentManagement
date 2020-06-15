@@ -55,7 +55,8 @@ module.exports = {
     hot: true,
     proxy: {
       '/api/': 'http://localhost:3001/'
-    }
+    },
+    historyApiFallback: true
   },
   plugins: [
     new HtmlWebPackPlugin({

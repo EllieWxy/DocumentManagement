@@ -3,11 +3,14 @@
     display: inline-block;
     background: #123597;
     color: #eee;
-    float: left;
 }
 
 .information {
     margin: 60px 40px 20px 40px;
+}
+
+.icon {
+    font-size: 40px;
 }
 
 .title{

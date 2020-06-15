@@ -9,14 +9,17 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.2.1",
     "antd": "^4.2.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "vditor": "^3.1.14"
   },
   "devDependencies": {
     "@types/react": "^16.9.33",
     "@types/react-dom": "^16.9.6",
+    "@types/react-router-dom": "^5.1.5",
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^1.0.1",
     "file-loader": "^6.0.0",

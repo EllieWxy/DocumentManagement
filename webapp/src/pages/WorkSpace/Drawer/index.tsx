@@ -37,22 +37,28 @@ export default class Drawer extends React.Component<IDrawer,{newFileName:string}
         })
     }
 
-    drawerClick = (event:any)=>{
+    handleClickAdd = ()=>{
         const that = this
-        //添加新文件
-        if(event.target.classList.contains('add') || event.target.parentElement.classList.contains('add')){
-            confirm({
-                title: `请输入文件名`,
-                icon: <ExclamationCircleOutlined />,
-                content: <Input type='text' placeholder='新建文件' onChange={that.changeFileName.bind(that)}/>,
-                onOk() {
-                    createFile({title:that.state.newFileName,content:'',father:that.props.selectFid})
-                        .then((res:any) => {
+        const fileFather = this.props.title === '无正在编辑文件' ? 'redhome' : this.props.title;
+        confirm({
+            title: `请输入文件名`,
+            icon: <ExclamationCircleOutlined />,
+            content:
+              <div>
+                  确定创建{fileFather}的子文件
+                  <Input type='text' placeholder='新建文件' onChange={that.changeFileName.bind(that)}/>
+              </div>,
+            onOk() {
+                createFile({title:that.state.newFileName,content:'',father:that.props.selectFid})
+                    .then((res:any) => {
+                        if(res === '创建文件成功'){
                             message.success('创建文件成功')
-                        })
-                }
-            });
-        }
+                        } else {
+                            message.error(res)
+                        }
+                    })
+            }
+        });
     }
 
 
@@ -61,12 +67,12 @@ export default class Drawer extends React.Component<IDrawer,{newFileName:string}
         const onSelect = (selectedKeys:any) => {
             this.props.getDetail(selectedKeys)
         };
-        
-        return <div onClick={this.drawerClick} className={style.drawer}>
+
+        return <div className={style.drawer}>
             <div className={style.top}>
                 <Input placeholder='search...' type='text' className='hasBack' onChange={this.props.onChangeSearch}
                        suffix={searchIcon} value={this.props.search} onSuffix={this.props.handleSuffix}/>
-                <Operation icon={addIcon} className='add'/>
+                <Operation icon={addIcon} className='add' handleClick={this.handleClickAdd.bind(this)}/>
             </div>
             <div onClick={this.props.changeSelect} className={style.nodeTree}>
                 <div className={style.title}>{this.props.title}</div>

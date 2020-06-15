@@ -9,4 +9,5 @@ module.exports = {
   PORT : process.env.PROT || 3001,
   keys : ['some secret hurr'],
   salt : 'some salts' ,
+  nodeEnv : process.env.NODE_ENV || 'dev'
 };

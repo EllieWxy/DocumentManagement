@@ -3,25 +3,25 @@ import style from './index.m.css'
 import Options from "./Options";
 import documentIcon from 'img/document.svg'
 import settingIcon from 'img/setting.svg'
-
+import {FileTextOutlined,SettingOutlined} from '@ant-design/icons'
 
 export interface ISidebarProps {
     title: string,
     club: string,
     detail: string,
-    onClick: () => any,
+    onClickContent: () => any,
+    onClickSetting: () => any,
 }
 
 
 export default class Sidebar extends React.Component<ISidebarProps, {}> {
 
+    iconStyle = {fontSize:'30px',margin:'30px 20px',display:'block'}
     //每一个设置一个onClick
     render() {
         return <div className={style.sidebar}>
-            <div onClick={this.props.onClick}>
-                <Options icon={documentIcon} content='文档'/>
-                <Options icon={settingIcon} content='设置'/>
-            </div>
+            <FileTextOutlined style={this.iconStyle} onClick={this.props.onClickContent}/>
+            <SettingOutlined style={this.iconStyle} onClick={this.props.onClickSetting}/>
         </div>
     }
 }
