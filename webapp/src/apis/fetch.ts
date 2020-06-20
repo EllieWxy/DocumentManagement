@@ -1,20 +1,21 @@
-import config from '../../config';
-const baseUrl = config.baseUrl;
+export default async function fetch(
+  url: string,
+  method?: string,
+  body?: object
+) {
+  const response = await window.fetch(url, {
+    method: method || 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: body && JSON.stringify(body) //考虑传headers或其他参数的情况
+  })
 
-export default function fetch(path:string,method?:string,body?:object) {
-    let requestUrl = baseUrl + path;
+  if (!response.ok) {
+    // 异常时抛出错误
+    const text = await response.text()
+    throw new Error(text)
+  }
 
-    return window.fetch(requestUrl,{
-        method:method || 'GET',
-        headers : {
-            'Content-Type': 'application/json'
-        },
-        body:body && JSON.stringify(body) //考虑传headers或其他参数的情况
-    }).then(res => {
-        if(res.ok){
-            return res.json()
-        } else {
-            return res.text()
-        }
-    })
+  return response.json()
 }
