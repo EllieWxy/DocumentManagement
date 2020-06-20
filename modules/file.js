@@ -2,8 +2,9 @@ const fileModel = require('../models').File
 const countersModel = require('../models').Couters
 const JSONError = require('../utils/JSONError')
 
-exports.getNextSequenceValue = function (sequenceName) {
-  return countersModel.findOneAndUpdate({name: sequenceName}, {$inc: {id: 1}}, {new: true});
+exports.getNextSequenceValue = function (type) {
+  const ID = type === 'file' ? {fileID:1} : {clubID:1}
+  return countersModel.findOneAndUpdate({name: 'counter'}, {$inc: ID}, {new: true});
 }
 
 exports.addFile = function (fid, cid, title, content, father, keyword) {

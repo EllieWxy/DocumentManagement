@@ -2,7 +2,8 @@ const db = require('./db')
 
 coutersSchema = new db.Schema({
   name:String,
-  id:Number
+  fileID:Number,
+  clubID:Number
 })
 
 exports.countersSchema = coutersSchema;
