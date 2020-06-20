@@ -26,6 +26,7 @@ app.use(async function(ctx,next) {
       ctx.response.status = err.status;
     } else {
       ctx.response.status = 500;
+      ctx.response.body = err.message
     }
   }
 })
@@ -37,7 +38,7 @@ app.use(static(path.join(__dirname)))
 app.use(session({store :new mongooseStore()},app))
 
 app.use(common.routes())
-app.use(middleware.checkLogin)
+// app.use(middleware.checkLogin)
 app.use(file.routes())
 
 app.listen(config.PORT);

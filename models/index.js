@@ -7,7 +7,7 @@ const user = require('./user');
 const counters = require('./counters');
 
 const Counters = mongoose.model('CountersModel',counters.countersSchema);
-Counters.create({name:"counter",id:0});
+Counters.create({name:"counter",fileID:0});
 
 exports.User = mongoose.model('UserModel',user.userSchema);
 exports.Club = mongoose.model('ClubModel',club.clubSchema);

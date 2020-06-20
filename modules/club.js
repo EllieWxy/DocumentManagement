@@ -1,5 +1,4 @@
 const clubModel = require('../models').Club
-const JSONError = require('../utils/JSONError')
 
 exports.getClubInfo = function (cid) {
   return clubModel.findOne({cid:cid})

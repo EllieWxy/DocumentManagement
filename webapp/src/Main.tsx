@@ -1,17 +1,9 @@
 import * as React from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import {App} from './App';
 import WorkSpace from "./pages/WorkSpace";
 import Login from "./pages/Login";
 
-export interface IMainProps {
-    app: App; // Reference to our App.ts class
-}
-
-export class Main extends React.Component<IMainProps, {}> {
-    constructor(props: IMainProps) {
-        super(props);
-    }
+export class Main extends React.Component<{}, {}> {
 
     handleLogin() {
         location.href = location.origin + '/workspace'
@@ -21,8 +13,7 @@ export class Main extends React.Component<IMainProps, {}> {
     WorkSpaceComponent = () => <WorkSpace/>
 
 
-    public render(): JSX.Element
-    {
+    render() {
         return (
           <BrowserRouter>
               <Switch>

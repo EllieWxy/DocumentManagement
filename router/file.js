@@ -13,18 +13,16 @@ const router = new Router({
 
 
 router.post('/',async function (ctx) {
-  const {father=ctx.session.club,title,content,keyword} = ctx.request.body;
+  const {father,title,content,keyword} = ctx.request.body;
   const {cid} = ctx.session;
   const fidDocs = await File.getNextSequenceValue("file");
   if(!fidDocs){
     throw new JSONError('社团未注册！',403);
     return
   }
-  const fid = fidDocs.id;
-  const result = await File.fatherAddChild(father,fid,title);
-  if(!result){
-    throw new JSONError('父文件不存在',403)
-    return
+  const fid = fidDocs.fileID;
+  if(father){
+    await File.fatherAddChild(father,fid,title)
   }
   await File.addFile(fid,cid,title,content,father,keyword);
   ctx.response.body = {message : '文章创建成功'};
@@ -36,14 +34,9 @@ router.post('/',async function (ctx) {
  */
 
 router.get('/',async function (ctx) {
-  const father = ctx.query.father || ctx.session.club;
-  const cid = ctx.session.cid;
-  const result = await File.getFiles(cid,father)
-  if(result && result._doc.children){
-    ctx.response.body = result._doc.children
-  } else {
-    ctx.response.body = []
-  }
+  const cid = ctx.session.cid || 1;
+  const result = await File.getFiles(cid)
+  ctx.response.body = result
 })
 
 /**
@@ -54,7 +47,6 @@ router.get('/',async function (ctx) {
 router.get('/:id',async function (ctx) {
   const fid = ctx.params.id;
   const cid = ctx.session.cid;
-  // const cid = 1;
   const result = await File.getFileByID(cid,fid);
   ctx.response.body = result
 })
@@ -62,7 +54,6 @@ router.get('/:id',async function (ctx) {
 router.get('/search/:search',async function (ctx) {
   const searchValue = ctx.params.search;
   const cid = ctx.session.cid;
-  // const cid = 1;
   const result = await File.searchFile(cid,searchValue);
   ctx.response.body = result
 })
