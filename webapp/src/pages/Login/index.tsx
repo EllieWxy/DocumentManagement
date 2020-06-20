@@ -5,8 +5,16 @@ import login from 'apis/login'
 import userIcon from "img/user.svg"
 import passwordIcon from "img/password.svg"
 
+interface ILoginProps {
+    login:any
+}
+interface ILoginState {
+    user:string,
+    password:string
+}
 
-export default class Login extends React.Component<{login:any},{user:string,password:string}>{
+
+export default class Login extends React.Component<ILoginProps,ILoginState>{
     constructor(props:any) {
         super(props);
         this.state = {

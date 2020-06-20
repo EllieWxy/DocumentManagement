@@ -11,7 +11,7 @@ import style from "./index.m.css"
 
 const { confirm } = Modal;
 
-export interface IDrawer {
+export interface IDrawerProps {
     selectFid:string,
     title:string,
     changeSelect:() => any,
@@ -23,7 +23,11 @@ export interface IDrawer {
     getFiles?:() => any,
 }
 
-export default class Drawer extends React.Component<IDrawer,{newFileName:string}>{
+interface IDrawerState {
+    newFileName:string
+}
+
+export default class Drawer extends React.Component<IDrawerProps,IDrawerState>{
 
     constructor(props:any){
         super(props)

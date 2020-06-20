@@ -4,7 +4,7 @@ import removeSvg from './img/remove.svg'
 import saveSvg from './img/save.svg'
 import "vditor/dist/index.css";
 
-interface IMDEditor {
+interface IMDEditorProps {
   renderFid:string,
   content:string,
   getValue:() => any,
@@ -12,7 +12,7 @@ interface IMDEditor {
   removeFile:() => any
 }
 
-export default class MDEditor extends React.Component<IMDEditor, any> {
+export default class MDEditor extends React.Component<IMDEditorProps, any> {
   rootRef = React.createRef<HTMLDivElement>();
   vditor: Vditor | null = null;
 
