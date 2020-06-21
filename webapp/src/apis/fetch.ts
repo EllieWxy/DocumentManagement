@@ -10,12 +10,10 @@ export default async function fetch(
     },
     body: body && JSON.stringify(body) //考虑传headers或其他参数的情况
   })
-
   if (!response.ok) {
     // 异常时抛出错误
     const text = await response.text()
     throw new Error(text)
   }
-
   return response.json()
 }

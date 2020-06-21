@@ -24,6 +24,19 @@ router.get('/platformInfo', async function(ctx) {
   }
 })
 
+/**
+ * 获取当前的用户信息
+ */
+
+router.get('/userInfo', function(ctx) {
+  ctx.body = {
+    user:ctx.session.user || undefined,
+    cid:ctx.session.cid || undefined,
+    clubName:ctx.session.clubName || undefined
+  }
+})
+
+
 router.post('/login', async function(ctx) {
   let { user, password } = ctx.request.body
   password = crypto
