@@ -7,5 +7,5 @@ export function getPlatformInfo(): Promise<IPlatformInfo> {
 }
 
 export function getUserInfo(): Promise<IPlatformInfo> {
-  return fetch(`${BASE_URL}/common/userInfo`)
+  return fetch(`${BASE_URL}/user/userInfo`)
 }

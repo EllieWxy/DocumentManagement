@@ -18,7 +18,8 @@ module.exports = {
       apis: path.resolve(__dirname, 'src/apis/'),
       pages: path.resolve(__dirname, 'src/pages/'),
       img: path.resolve(__dirname, 'src/img/'),
-      config: path.resolve(__dirname, 'src/config')
+      config: path.resolve(__dirname, 'src/config'),
+      src:path.resolve(__dirname, 'src/')
     }
   },
   module: {

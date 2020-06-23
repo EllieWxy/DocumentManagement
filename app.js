@@ -12,6 +12,7 @@ const config = require('./config');
 const JSONError = require('./utils/JSONError');
 const common = require('./router/common');
 const file = require('./router/file');
+const user = require('./router/user');
 const mongoUrl = require('./models').mongoUrl
 
 mongoose.connect(mongoUrl);
@@ -38,7 +39,8 @@ app.use(static(path.join(__dirname)))
 app.use(session({store :new mongooseStore()},app))
 
 app.use(common.routes())
-// app.use(middleware.checkLogin)
+app.use(middleware.checkLogin)
+app.use(user.routes())
 app.use(file.routes())
 
 app.listen(config.PORT);
