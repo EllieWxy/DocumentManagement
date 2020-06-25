@@ -8,7 +8,8 @@ class Pages extends React.Component<any,{}>{
 
   static contentType = UserContext
 
-  componentWillMount(): void {
+  componentWillMount(){
+    console.log(this.context)
     if(this.context.user && location.pathname !== '/workspace'){
       this.props.history.push('/workspace')
     } else if(!this.context.user && location.pathname !== '/login') {

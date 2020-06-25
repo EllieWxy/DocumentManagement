@@ -20,7 +20,7 @@ export class Main extends React.Component<any, IMainState> {
     constructor(props: any) {
         super(props)
         this.state = {
-            isLoading: false,
+            isLoading: true,
             userInfo: {
                 user:'',
                 sid:''
@@ -40,6 +40,7 @@ export class Main extends React.Component<any, IMainState> {
         if (this.state.isLoading) {
             return <Spin className={style.globalLoading} size="large"/>
         } else {
+            console.log(this.state.userInfo)
             return (
                 <UserContext.Provider value={this.state.userInfo}>
                     <BrowserRouter>

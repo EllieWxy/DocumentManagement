@@ -147,8 +147,8 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
                                 search = {this.state.search}
                                 onChangeSearch={this.handleChangeSearch.bind(this)}
                                 getFiles={this.updateFileTree.bind(this)}/>
-           rightPage =  <MDEditor renderFid={this.state.fid} content={this.state.content} getValue={this.updateContent.bind(this)}
-                         removeFile={this.removeFile.bind(this)} saveFile={this.updateFile.bind(this)}/>
+            rightPage = this.state.title ? <MDEditor renderFid={this.state.fid} content={this.state.content} getValue={this.updateContent.bind(this)}
+                         removeFile={this.removeFile.bind(this)} saveFile={this.updateFile.bind(this)}/> : null
 
         }
 

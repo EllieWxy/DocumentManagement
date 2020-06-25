@@ -21,6 +21,7 @@ body {
     border-radius: 1000px;
     color: white;
     cursor: pointer;
+    height: 46px;
 }
 
 .loading {
