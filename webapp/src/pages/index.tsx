@@ -1,19 +1,34 @@
 import * as React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom'
 import WorkSpace from './WorkSpace'
 import Login from './Login'
+import {UserContext} from '../Main'
 
-export default function() {
-  return (
-    <BrowserRouter>
+class Pages extends React.Component<any,{}>{
+
+  static contentType = UserContext
+
+  componentWillMount(): void {
+    if(this.context.user && location.pathname !== '/workspace'){
+      this.props.history.push('/workspace')
+    } else if(!this.context.user && location.pathname !== '/login') {
+      this.props.history.push('/login')
+    }
+  }
+
+  render () {
+    return <BrowserRouter>
       <Switch>
         <Route path="/workspace">
-          <WorkSpace />
+          <WorkSpace/>
         </Route>
         <Route path="/">
-          <Login />
+          <Login/>
         </Route>
       </Switch>
     </BrowserRouter>
-  )
+  }
 }
+
+export default withRouter(Pages)
+
