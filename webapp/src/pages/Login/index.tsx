@@ -4,16 +4,21 @@ import style from './index.m.css'
 import login from 'apis/login'
 import userIcon from 'img/user.svg'
 import passwordIcon from 'img/password.svg'
+import {withRouter} from "react-router";
+import {message, Spin} from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface ILoginState {
-  user: string
+  isLoading: boolean,
+  user: string,
   password: string
 }
 
-export default class Login extends React.Component<any, ILoginState> {
+ class Login extends React.Component<any, ILoginState> {
   constructor(props: any) {
     super(props)
     this.state = {
+      isLoading:false,
       user: '',
       password: ''
     }
@@ -22,13 +27,16 @@ export default class Login extends React.Component<any, ILoginState> {
   handleClick = (event: any) => {
     // = 放在实例上
     event.preventDefault()
+    this.setState({isLoading:true})
     login(this.state.user, this.state.password).then(res => {
       if (res.message == '登录成功！') {
-        alert(res.message)
-        location.href = location.origin + '/workspace'
-      } else {
-        alert(res)
+        this.props.history.push('/workspace')
       }
+      message.success(res.message)
+      this.setState({isLoading:false})
+    }).catch(err => {
+      message.error(err.message)
+      this.setState({isLoading:false})
     })
   }
 
@@ -43,8 +51,9 @@ export default class Login extends React.Component<any, ILoginState> {
   }
 
   render() {
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
     return (
-      <div className={style.container}>
+        <div className={style.container}>
         <Input
           prefix={userIcon}
           className="hasBack"
@@ -62,9 +71,11 @@ export default class Login extends React.Component<any, ILoginState> {
           value={this.state.password}
         />
         <div className={style.button} onClick={this.handleClick}>
-          登 录
+          {this.state.isLoading ? <Spin className={style.loading} indicator={antIcon} /> : "登 录" }
         </div>
       </div>
     )
   }
 }
+
+export default withRouter(Login)

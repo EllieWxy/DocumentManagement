@@ -3,6 +3,7 @@ import {BrowserRouter} from 'react-router-dom'
 import {Spin} from 'antd';
 import {getPlatformInfo, getUserInfo} from './apis/common'
 import Pages from './pages'
+import style from 'components/common.m.css'
 
 interface IMainState {
     isLoading: boolean,
@@ -19,7 +20,7 @@ export class Main extends React.Component<any, IMainState> {
     constructor(props: any) {
         super(props)
         this.state = {
-            isLoading: true,
+            isLoading: false,
             userInfo: {
                 user:'',
                 sid:''
@@ -37,7 +38,7 @@ export class Main extends React.Component<any, IMainState> {
 
     render() {
         if (this.state.isLoading) {
-            return <Spin size="large"/>
+            return <Spin className={style.globalLoading} size="large"/>
         } else {
             return (
                 <UserContext.Provider value={this.state.userInfo}>

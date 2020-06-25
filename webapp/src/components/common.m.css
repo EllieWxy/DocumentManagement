@@ -17,7 +17,7 @@ body,:global(#app){
     height: 24px;
 }
 
-:global(.ant-spin-spinning) {
+.globalLoading {
     display: flex;
     justify-content: space-around;
     height: 100vh;
