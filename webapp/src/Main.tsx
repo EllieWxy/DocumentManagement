@@ -4,16 +4,13 @@ import {Spin} from 'antd';
 import {getPlatformInfo, getUserInfo} from './apis/common'
 import Pages from './pages'
 import style from 'components/common.m.css'
+import {UserContext} from 'components/Context'
+import {IUserInfo} from "./apis/login";
 
-interface IMainState {
+interface IMainState{
     isLoading: boolean,
-    userInfo: {
-        user:string,
-        sid:string
-    }
+    userInfo : IUserInfo
 }
-
-export const UserContext = React.createContext<{user:string,sid:string}>({user:'',sid:''})
 
 export class Main extends React.Component<any, IMainState> {
 
@@ -40,7 +37,6 @@ export class Main extends React.Component<any, IMainState> {
         if (this.state.isLoading) {
             return <Spin className={style.globalLoading} size="large"/>
         } else {
-            console.log(this.state.userInfo)
             return (
                 <UserContext.Provider value={this.state.userInfo}>
                     <BrowserRouter>
