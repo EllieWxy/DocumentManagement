@@ -2,6 +2,7 @@ import * as React from 'react'
 import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom'
 import WorkSpace from './WorkSpace'
 import Login from './Login'
+import Setting from './Setting'
 import {UserContext} from 'components/Context'
 
 class Pages extends React.Component<any,{}>{
@@ -21,6 +22,9 @@ class Pages extends React.Component<any,{}>{
       <Switch>
         <Route path="/workspace">
           <WorkSpace/>
+        </Route>
+        <Route path="/setting">
+          <Setting/>
         </Route>
         <Route path="/">
           <Login/>

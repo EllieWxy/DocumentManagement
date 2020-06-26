@@ -4,32 +4,3 @@
     background: #123597;
     color: #eee;
 }
-
-.information {
-    margin: 60px 40px 20px 40px;
-}
-
-.icon {
-    font-size: 40px;
-}
-
-.title{
-    font-size: 24px;
-    margin: 20px 0;
-}
-
-.club {
-    font-size: 20px;
-}
-
-.leftSide {
-    float: left;
-}
-
-.top {
-    margin: 0 20px;
-}
-
-.nodeTree {
-
-}

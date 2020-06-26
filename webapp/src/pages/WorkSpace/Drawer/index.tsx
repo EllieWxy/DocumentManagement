@@ -14,7 +14,6 @@ const { confirm } = Modal;
 export interface IDrawerProps {
     selectFid:string,
     title:string,
-    changeSelect:() => any,
     getDetail:(fid:string) => any,
     node:any
     handleSuffix:() => any,
@@ -82,7 +81,7 @@ export default class Drawer extends React.Component<IDrawerProps,IDrawerState>{
                 <Operation icon={addIcon} className='add' handleClick={this.handleClickAdd.bind(this)}/>
 
             </div>
-            <div onClick={this.props.changeSelect} className={style.nodeTree}>
+            <div className={style.nodeTree}>
                 <div className={style.title}>{this.props.title}</div>
                 <hr/>
                 {this.props.node.length > 0 ?

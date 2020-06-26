@@ -48,7 +48,8 @@ export default class MDEditor extends React.Component<IMDEditorProps, any> {
             this.props.saveFile()
           }}
           ],
-      input: this.props.getValue //valueOnChange
+      input: this.props.getValue,//valueOnChange
+      value: this.props.content
     });
   }
 

@@ -1,19 +1,21 @@
 import * as React from 'react'
-import Sidebar from "components/Sidebar";
-import MDEditor from "components/MDEditor";
-import style from './index.m.css'
-import {getFileByID, updateFile, removeFile, getFile, searchFile} from "apis/file";
-import Drawer from "./Drawer";
 import {message,Modal} from 'antd';
 import 'antd/dist/antd.css';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Prompt } from 'react-router-dom';
+import {getFileByID, updateFile, removeFile, getFile, searchFile} from "apis/file";
+import Sidebar from "components/Sidebar";
+import MDEditor from "components/MDEditor";
+import Drawer from "./Drawer";
+import style from './index.m.css'
 
 const { confirm } = Modal;
 
 interface IWorkSpace {
     fid:string,
     title:string,
-    content:string,
+    renderContent:string,
+    fileContent:string,
     select:string,
     popUpVisible:boolean,
     search:string,
@@ -31,7 +33,8 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         this.state = {
             fid:'',
             title:'',
-            content:'',
+            renderContent:'',
+            fileContent:'',
             select :'文档',
             popUpVisible:false,
             search:'',
@@ -52,29 +55,35 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         })
     }
 
-    changeSelected(fid:string){
-        //切换选中文件
-        this.setState({fid:fid})
-    }
-
-    handleClickContent(event:any){
-        //切换一级页面
-        this.setState({select:'文档'})
-    }
-    handleClickSetting(event:any){
-        //切换一级页面
-        this.setState({select:'设置'})
-    }
-
     //输入的时候对content进行更新
     updateContent = function(value:any){
-        this.setState({content:value})
+        this.setState({renderContent:value})
     }
 
     //选中时对文件内容进行渲染
     getAndRenderFile(fid:string){
-       getFileByID(fid).then((res: { fid: any; title: any; content: any; }) => {
-            this.setState({fid:res.fid,title:res.title,content:res.content})
+        const that = this
+        fid = fid.toString()
+        if(this.state.renderContent !== this.state.fileContent){
+            confirm({
+                title: `需要对文件${that.state.title}进行保存吗？`,
+                icon: <ExclamationCircleOutlined />,
+                onOk() {
+                    that.updateFile()
+                    that.changeRenderFile(fid)
+                },
+                onCancel(){
+                    that.changeRenderFile(fid)
+                }
+            });
+        } else {
+            this.changeRenderFile(fid)
+        }
+    }
+
+    changeRenderFile(fid:string){
+        getFileByID(fid).then((res: { fid: any; title: any; content: any; }) => {
+            this.setState({fid:res.fid,title:res.title,renderContent:res.content,fileContent:res.content})
         })
     }
 
@@ -106,8 +115,8 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             icon: <ExclamationCircleOutlined />,
             content: '此操作不可撤销',
             onOk() {
-                removeFile(that.state.fid).then((res:any) => {
-                    that.setState({fid:'',title:'',content:''})
+                removeFile(that.state.fid).then(() => {
+                    that.setState({fid:'',title:'',renderContent:'',fileContent:''})
                 })
                 getFile().then((res:any) => {
                     that.setState({node:res})
@@ -117,6 +126,7 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         });
 
     }
+
     //保存文件
     updateFile(){
         if(this.state.fid === ''){
@@ -124,10 +134,12 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             return;
         }
         updateFile(this.state.fid,
-            {title:this.state.title,content:this.state.content,father:undefined}).then((res:any) =>{
+            {title:this.state.title,content:this.state.renderContent,father:undefined}).then(() =>{
+                this.setState({fileContent:this.state.renderContent})
             message.success('保存成功');
         })
     }
+
     //每次更新后重新获取文件
     updateFileTree(){
         getFile().then((res:any) => {
@@ -135,30 +147,46 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
         })
     }
 
-    render(){
-        let secondPage:any = <div></div>
-        let rightPage:any = <div></div>
-        if(this.state.select === '文档'){
-            secondPage = <Drawer title={this.state.title || '无正在编辑文件'}
-                                 node = {this.state.node}
-                                  selectFid={this.state.fid} changeSelect={this.changeSelected.bind(this)}
-                                  getDetail={this.getAndRenderFile.bind(this)}
-                                handleSuffix={this.handleSuffix.bind(this)}
-                                search = {this.state.search}
-                                onChangeSearch={this.handleChangeSearch.bind(this)}
-                                getFiles={this.updateFileTree.bind(this)}/>
-            rightPage = this.state.title ? <MDEditor renderFid={this.state.fid} content={this.state.content} getValue={this.updateContent.bind(this)}
-                         removeFile={this.removeFile.bind(this)} saveFile={this.updateFile.bind(this)}/> : null
-
+    //关闭浏览器时进行阻拦
+    componentWillMount(){
+        window.addEventListener('beforeunload',this.beforeunload);
+    }
+    componentWillUnmount () {
+        window.removeEventListener('beforeunload', this.beforeunload);
+    }
+    beforeunload = (e:any)=>{
+        if(this.state.fileContent !== this.state.renderContent){
+            let confirmationMessage = '您还没保存文件呢，确定要离开吗？';
+            (e || window.event).returnValue = confirmationMessage;
+            return confirmationMessage;
         }
+    }
 
+    render(){
+        let contentHasChanged = Boolean(this.state.fileContent !== this.state.renderContent)
         return <div className={style.content}>
-            <Sidebar title='萝依' club='红色家园' detail='option'
-                     onClickContent={this.handleClickContent.bind(this)}
-                     onClickSetting={this.handleClickSetting.bind(this)}/>
-            {secondPage}
+            <Prompt message={() => {
+               if(contentHasChanged){
+                   return `您还有文件未保存，确定要离开吗？`
+               }
+            }} />
+            <Sidebar/>
+            <Drawer title={this.state.title || '无正在编辑文件'}
+                    node = {this.state.node}
+                    selectFid={this.state.fid}
+                    getDetail={this.getAndRenderFile.bind(this)}
+                    handleSuffix={this.handleSuffix.bind(this)}
+                    search = {this.state.search}
+                    onChangeSearch={this.handleChangeSearch.bind(this)}
+                    getFiles={this.updateFileTree.bind(this)}/>
             <div className={style.right}>
-                {rightPage}
+                {this.state.title ?
+                    <MDEditor renderFid={this.state.fid}
+                              content={this.state.renderContent}
+                              getValue={this.updateContent.bind(this)}
+                              removeFile={this.removeFile.bind(this)}
+                              saveFile={this.updateFile.bind(this)}/>
+                              : null}
             </div>
         </div>
 
