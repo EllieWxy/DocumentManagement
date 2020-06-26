@@ -1,0 +1,8 @@
+.root {
+  min-height: 330px;
+}
+
+.root .loading {
+  text-align: center;
+  line-height: 300px;
+}

@@ -1,3 +1,4 @@
+const { v1: uuid } = require('uuid')
 const userModel = require('../models').User
 const JSONError = require('../utils/JSONError')
 
@@ -5,33 +6,26 @@ const JSONError = require('../utils/JSONError')
  * 检查当前系统中是否存在user
  */
 exports.checkExistUser = async function() {
-  const user = await userModel.findOne({ sid: { $exists: true } })
+  const user = await userModel.findOne({ uid: { $exists: true } })
   return Boolean(user)
 }
 
-exports.addUser = function(cid, user, password) {
-  return userModel.findOne({ sid: user }).then(res => {
-    if (res === null) {
-      userModel.create(
-        {
-          sid: user,
-          password: password,
-          cid: cid
-        },
-        function(err) {
-          if (err) {
-            throw new JSONError(err)
-          }
-        }
-      )
-    } else {
-      throw new JSONError('账号已存在')
-    }
+exports.addUser = async function(user) {
+  const { username, password, clubs = [] } = user
+  const res = await userModel.findOne({ username })
+  if (res !== null) {
+    throw new JSONError('账号已存在')
+  }
+  userModel.create({
+    uid: uuid(),
+    username,
+    password,
+    clubs
   })
 }
 
-exports.checkUser = function(user, password) {
-  return userModel.findOne({ sid: user }).then(res => {
+exports.checkUser = function(username, password) {
+  return userModel.findOne({ username }).then(res => {
     if (res === null) {
       throw new JSONError('账号不存在', 401)
     } else {

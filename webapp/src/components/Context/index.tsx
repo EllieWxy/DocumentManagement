@@ -1,4 +1,7 @@
-import * as React from "react";
-import {IUserInfo} from 'apis/login'
+import * as React from 'react'
+import { IUserInfo } from 'apis/login'
 
-export const UserContext = React.createContext<IUserInfo>({user:'',sid:''})
+export const UserContext = React.createContext<IUserInfo>({
+  username: '',
+  uid: ''
+})
