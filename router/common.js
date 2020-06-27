@@ -1,12 +1,11 @@
 const Router = require('koa-router')
-const crypto = require('crypto')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const packageJson = require('../package')
 const User = require('../modules/user')
 const Club = require('../modules/club')
-const config = require('../config')
 const JSONError = require('../utils/JSONError')
 const File = require('../modules/file')
+const calcPassword = require('../utils/calcPassword')
 
 const router = new Router({
   prefix: '/api/common'
@@ -51,7 +50,11 @@ router.post('/initial', async function(ctx) {
   // await session.startTransaction()
   try {
     const createdClub = await Club.addClub(club)
-    await User.addUser({ ...user, club: createdClub.cid })
+    await User.addUser({
+      staffId: user.staffId,
+      password: calcPassword(user.password),
+      club: createdClub.cid
+    })
     // await session.commitTransaction()
   } catch (e) {
     console.log(e.message)
@@ -65,11 +68,7 @@ router.post('/initial', async function(ctx) {
 
 router.post('/login', async function(ctx) {
   let { staffId, password } = ctx.request.body
-  password = crypto
-    .createHmac('sha256', config.salt)
-    .update(String(password))
-    .digest('hex')
-  const result = await User.checkUser(staffId, password)
+  const result = await User.checkUser(staffId, calcPassword(password))
   if (!result) {
     throw new JSONError('登录失败', 403)
   }
@@ -86,11 +85,7 @@ router.post('/login', async function(ctx) {
 
 router.post('/reg', async function(ctx) {
   let { club, staffId, password } = ctx.request.body
-  password = crypto
-    .createHmac('sha256', config.salt)
-    .update(password)
-    .digest('hex')
-  await User.addUser({ club, staffId, password })
+  await User.addUser({ club, staffId, password: calcPassword(password) })
   ctx.response.body = { message: '注册成功！' }
 })
 
