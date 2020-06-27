@@ -2,13 +2,13 @@ import { BASE_URL } from 'config'
 import fetch from './fetch'
 
 export interface IUserInfo {
-    user:string,
-    sid:string
+  staffId: string
+  club: string
 }
 
-export default function login(user: string, password: string){
+export default function login(staffId: string, password: string) {
   return fetch(`${BASE_URL}/common/login`, 'POST', {
-    user: user,
-    password: password
+    staffId,
+    password
   })
 }

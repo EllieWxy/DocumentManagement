@@ -13,7 +13,7 @@ export default async function fetch(
   if (!response.ok) {
     // 异常时抛出错误
     const text = await response.text()
-    throw new Error(text)
+    throw new Error(text || '未知错误')
   }
   return response.json()
 }
