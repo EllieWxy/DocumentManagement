@@ -13,7 +13,7 @@ const layout = {
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 }
 }
-const userNameRule = [{ required: true, message: '用户名为必填项' }]
+const userNameRule = [{ required: true, message: '学号为必填项' }]
 const passwordRule = [{ required: true, message: '密码为必填项' }]
 
 interface IUserFormProps {
@@ -30,7 +30,7 @@ export default class UserForm extends React.Component<IUserFormProps, any> {
     return (
       <div className={className}>
         <Form {...layout} ref={this.formRef} onFinish={onSubmit}>
-          <Item name="username" label="用户名" rules={userNameRule}>
+          <Item name="staffId" label="学号" rules={userNameRule}>
             <Input />
           </Item>
           <Item name="password" label="密码" rules={passwordRule}>

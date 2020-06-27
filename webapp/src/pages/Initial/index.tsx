@@ -17,7 +17,7 @@ export default class Initial extends React.Component<any, IInitialState> {
   state = {
     activeStep: 0,
     club: { clubName: '' },
-    user: { username: '', password: '' }
+    user: { staffId: '', password: '' }
   }
 
   handleClubSubmit = (club: IInitialInfo['club']) => {

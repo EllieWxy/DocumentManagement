@@ -1,9 +1,7 @@
 export interface IBaseUser {
-  clubs: string[]
-  username: string
+  staffId: string
+  club: string
   password: string
 }
 
-export type TUser = Omit<IBaseUser, 'password'> & {
-  uid: string
-}
+export type TUser = Omit<IBaseUser, 'password'>

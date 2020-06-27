@@ -1,10 +1,10 @@
 const db = require('./db')
 
 exports.userSchema = new db.Schema({
-  uid: String,
-  username: String,
+  staffId: String,
   password: String,
-  clubs: [String],
+  nickname: String,
+  club: String,
   email: String,
   authority: [Number],
   position: String

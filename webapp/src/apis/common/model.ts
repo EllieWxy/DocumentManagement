@@ -9,5 +9,5 @@ export interface IPlatformInfo {
 
 export interface IInitialInfo {
   club: IBaseClub
-  user: Omit<IBaseUser, 'clubs'>
+  user: Omit<IBaseUser, 'club'>
 }

@@ -38,7 +38,7 @@ router.post('/initial', async function(ctx) {
   const { user, club } = ctx.request.body
   // 类型校验
   try {
-    if (!user.username || !user.password || !club.clubName) {
+    if (!user.staffId || !user.password || !club.clubName) {
       throw new Error()
     }
   } catch (e) {
@@ -51,7 +51,7 @@ router.post('/initial', async function(ctx) {
   // await session.startTransaction()
   try {
     const createdClub = await Club.addClub(club)
-    await User.addUser({ ...user, clubs: [createdClub.cid] })
+    await User.addUser({ ...user, club: createdClub.cid })
     // await session.commitTransaction()
   } catch (e) {
     console.log(e.message)
@@ -64,12 +64,12 @@ router.post('/initial', async function(ctx) {
 })
 
 router.post('/login', async function(ctx) {
-  let { username, password } = ctx.request.body
+  let { staffId, password } = ctx.request.body
   password = crypto
     .createHmac('sha256', config.salt)
     .update(String(password))
     .digest('hex')
-  const result = await User.checkUser(username, password)
+  const result = await User.checkUser(staffId, password)
   if (!result) {
     throw new JSONError('登录失败', 403)
   }
@@ -85,12 +85,12 @@ router.post('/login', async function(ctx) {
 })
 
 router.post('/reg', async function(ctx) {
-  let { clubs, username, password } = ctx.request.body
+  let { club, staffId, password } = ctx.request.body
   password = crypto
     .createHmac('sha256', config.salt)
     .update(password)
     .digest('hex')
-  await User.addUser({ clubs, username, password })
+  await User.addUser({ club, staffId, password })
   ctx.response.body = { message: '注册成功！' }
 })
 

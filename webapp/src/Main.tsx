@@ -18,8 +18,8 @@ export class Main extends React.Component<any, IMainState> {
     this.state = {
       isLoading: true,
       userInfo: {
-        username: '',
-        uid: ''
+        staffId: '',
+        club: ''
       }
     }
     const p1 = getPlatformInfo()
