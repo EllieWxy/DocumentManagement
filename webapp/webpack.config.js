@@ -19,7 +19,8 @@ module.exports = {
       pages: path.resolve(__dirname, 'src/pages/'),
       img: path.resolve(__dirname, 'src/img/'),
       config: path.resolve(__dirname, 'src/config'),
-      src:path.resolve(__dirname, 'src/')
+      src:path.resolve(__dirname, 'src/'),
+      context:path.resolve(__dirname, 'src/context')
     }
   },
   module: {

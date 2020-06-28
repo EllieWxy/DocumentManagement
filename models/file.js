@@ -19,5 +19,6 @@ exports.fileSchema = new db.Schema({
   authority: [{
     sid:String,
     auth:[Number]
-  }]
+  }],
+  isLeaf:Boolean
 })

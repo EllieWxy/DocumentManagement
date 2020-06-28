@@ -1,6 +1,5 @@
 .drawer {
     height: 100%;
-    /*float: left;*/
     background: #123597;
     padding: 0 10px;
     color: white;
@@ -20,6 +19,6 @@
     align-items: center;
 }
 
-:global(.ant-tree-list) svg{
-    fill:black;
+.tree{
+    overflow: scroll;
 }

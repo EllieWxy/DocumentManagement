@@ -1,8 +1,7 @@
 import * as React from 'react'
-import {message,Modal} from 'antd';
-import 'antd/dist/antd.css';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Prompt } from 'react-router-dom';
+import {message,Modal} from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import {getFileByID, updateFile, removeFile, getFile, searchFile} from "apis/file";
 import Sidebar from "components/Sidebar";
 import MDEditor from "components/MDEditor";
@@ -11,13 +10,11 @@ import style from './index.m.css'
 
 const { confirm } = Modal;
 
-interface IWorkSpace {
+interface IWorkSpaceState {
     fid:string,
     title:string,
     renderContent:string,
     fileContent:string,
-    select:string,
-    popUpVisible:boolean,
     search:string,
     node:[{
         fid:string,
@@ -27,7 +24,7 @@ interface IWorkSpace {
     }]
 }
 
-export default class WorkSpace extends React.Component<{},IWorkSpace>{
+export default class WorkSpace extends React.Component<{},IWorkSpaceState>{
     constructor(props:any){
         super(props)
         this.state = {
@@ -35,8 +32,6 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
             title:'',
             renderContent:'',
             fileContent:'',
-            select :'文档',
-            popUpVisible:false,
             search:'',
             node:[{
                 fid:'',
@@ -64,20 +59,24 @@ export default class WorkSpace extends React.Component<{},IWorkSpace>{
     getAndRenderFile(fid:string){
         const that = this
         fid = fid.toString()
-        if(this.state.renderContent !== this.state.fileContent){
-            confirm({
-                title: `需要对文件${that.state.title}进行保存吗？`,
-                icon: <ExclamationCircleOutlined />,
-                onOk() {
-                    that.updateFile()
-                    that.changeRenderFile(fid)
-                },
-                onCancel(){
-                    that.changeRenderFile(fid)
-                }
-            });
+        if(this.state.fid !== fid){
+            if(this.state.renderContent !== this.state.fileContent){
+                confirm({
+                    title: `需要对文件${that.state.title}进行保存吗？`,
+                    icon: <ExclamationCircleOutlined />,
+                    onOk() {
+                        that.updateFile()
+                        that.changeRenderFile(fid)
+                    },
+                    onCancel(){
+                        that.changeRenderFile(fid)
+                    }
+                });
+            } else {
+                this.changeRenderFile(fid)
+            }
         } else {
-            this.changeRenderFile(fid)
+            this.setState({fid:'',title:'',renderContent:'',fileContent:''})
         }
     }
 

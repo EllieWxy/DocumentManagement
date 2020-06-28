@@ -11,8 +11,7 @@ const router = new Router({
 router.get('/userInfo', function(ctx) {
   ctx.body = {
     user:ctx.session.user,
-    cid:ctx.session.cid,
-    clubName:ctx.session.clubName
+    club:ctx.session.club,
   }
 })
 

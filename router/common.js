@@ -4,7 +4,6 @@ const packageJson = require('../package')
 const User = require('../modules/user')
 const Club = require('../modules/club')
 const JSONError = require('../utils/JSONError')
-const File = require('../modules/file')
 const calcPassword = require('../utils/calcPassword')
 
 const router = new Router({
@@ -72,14 +71,13 @@ router.post('/login', async function(ctx) {
   if (!result) {
     throw new JSONError('登录失败', 403)
   }
-  const cid = result.cid ? result.cid[0] : ''
+  const cid = result.club
   const clubInfo = await Club.getClubInfo(cid)
   if (!clubInfo) {
     throw new JSONError('未注册社团或社团不存在', 403)
   }
-  ctx.session['user'] = user
-  ctx.session['club'] = clubInfo.clubName
-  ctx.session['cid'] = cid
+  ctx.session['user'] = result
+  ctx.session['club'] = clubInfo
   ctx.response.body = { message: '登录成功！' }
 })
 
@@ -95,9 +93,7 @@ router.post('/clubReg', async function(ctx) {
   if (clubRes.length !== 0) {
     throw new JSONError('社团名称已存在', 403)
   }
-  const clubNumber = await File.getNextSequenceValue('club')
-  const clubID = clubNumber.clubID
-  const res = await Club.addClub(clubID, clubName)
+  const res = await Club.addClub(clubName)
   ctx.response.body = res
 })
 

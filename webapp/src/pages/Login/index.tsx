@@ -1,12 +1,12 @@
 import * as React from 'react'
-import Input from 'components/Input'
-import style from './index.m.css'
-import login from 'apis/login'
-import userIcon from 'img/user.svg'
-import passwordIcon from 'img/password.svg'
 import { withRouter } from 'react-router'
 import { message, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
+import login from 'apis/login'
+import Input from 'components/Input'
+import userIcon from 'img/user.svg'
+import passwordIcon from 'img/password.svg'
+import style from './index.m.css'
 
 interface ILoginState {
   isLoading: boolean

@@ -1,7 +1,7 @@
 import * as React from 'react'
-import style from './index.m.css'
 import {FileTextOutlined,SettingOutlined} from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+import style from './index.m.css'
 
 export default class Sidebar extends React.Component<{}, {}> {
 

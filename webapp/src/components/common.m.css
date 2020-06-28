@@ -33,3 +33,18 @@ body,:global(#app){
     width: 28px;
     height: 28px;
 }
+
+:global(.ant-tree){
+    background: rgba(255,255,255,0);
+    color: white;
+}
+:global(.ant-tree-list svg){
+    fill: white;
+}
+:global(.ant-tree.ant-tree-directory .ant-tree-treenode:hover::before){
+    background: rgba(255,255,255,0.2);
+}
+:global(.ant-tree.ant-tree-directory .ant-tree-treenode-selected::before){
+    background: #1890ff!important;
+}
+

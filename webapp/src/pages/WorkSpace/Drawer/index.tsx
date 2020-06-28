@@ -1,15 +1,15 @@
 import * as React from 'react'
 import {message,Modal,Tree} from 'antd';
-import 'antd/dist/antd.css';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import {createFile} from "apis/file";
 import Input from "components/Input";
 import Operation from "components/Operation";
 import searchIcon from "img/search.svg";
 import addIcon from "img/add.svg";
-import {createFile} from "apis/file";
 import style from "./index.m.css"
 
 const { confirm } = Modal;
+const { DirectoryTree } = Tree;
 
 export interface IDrawerProps {
     selectFid:string,
@@ -23,7 +23,8 @@ export interface IDrawerProps {
 }
 
 interface IDrawerState {
-    newFileName:string
+    newFileName:string,
+    selectedKeys:any
 }
 
 export default class Drawer extends React.Component<IDrawerProps,IDrawerState>{
@@ -31,7 +32,8 @@ export default class Drawer extends React.Component<IDrawerProps,IDrawerState>{
     constructor(props:any){
         super(props)
         this.state = {
-            newFileName : ''
+            newFileName : '',
+            selectedKeys: []
         }
     }
 
@@ -85,7 +87,8 @@ export default class Drawer extends React.Component<IDrawerProps,IDrawerState>{
                 <div className={style.title}>{this.props.title}</div>
                 <hr/>
                 {this.props.node.length > 0 ?
-                    <Tree
+                    <DirectoryTree className={style.tree}
+                                   selectedKeys={[this.props.selectFid]}
                     onSelect={onSelect}
                     treeData={this.props.node}
                 /> : <div>这里空空如也诶</div>}

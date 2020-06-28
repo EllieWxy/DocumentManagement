@@ -1,11 +1,5 @@
 const fileModel = require('../models').File
-const countersModel = require('../models').Couters
 const JSONError = require('../utils/JSONError')
-
-exports.getNextSequenceValue = function (type) {
-  const ID = type === 'file' ? {fileID:1} : {clubID:1}
-  return countersModel.findOneAndUpdate({name: 'counter'}, {$inc: ID}, {new: true});
-}
 
 exports.addFile = function (fid, cid, title, content, father, keyword) {
   fileModel.create({
@@ -38,6 +32,9 @@ getFiles = async function (cid, fid) {
   tree["_doc"]["children"] = []
   for(item of tree.childNodes){
     tree["_doc"]["children"].push(await getFiles(cid, item.fid));
+  }
+  if(tree.childNodes.length === 0){
+    tree["_doc"]["isLeaf"] = true
   }
   return tree
 }

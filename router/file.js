@@ -1,4 +1,5 @@
 const Router = require('koa-router');
+const { v1: uuid } = require('uuid')
 const File = require('../modules/file');
 const JSONError = require('../utils/JSONError');
 
@@ -14,13 +15,8 @@ const router = new Router({
 
 router.post('/',async function (ctx) {
   const {father,title,content,keyword} = ctx.request.body;
-  const {cid} = ctx.session;
-  const fidDocs = await File.getNextSequenceValue("file");
-  if(!fidDocs){
-    throw new JSONError('社团未注册！',403);
-    return
-  }
-  const fid = fidDocs.fileID;
+  const {cid} = ctx.session.club;
+  const fid = uuid()
   if(father){
     await File.fatherAddChild(father,fid,title)
   }
@@ -34,7 +30,7 @@ router.post('/',async function (ctx) {
  */
 
 router.get('/',async function (ctx) {
-  const cid = ctx.session.cid || 1;
+  const cid = ctx.session.club.cid;
   const result = await File.getFiles(cid)
   ctx.response.body = result
 })
@@ -46,14 +42,14 @@ router.get('/',async function (ctx) {
 
 router.get('/:id',async function (ctx) {
   const fid = ctx.params.id;
-  const cid = ctx.session.cid;
+  const cid = ctx.session.club.cid;
   const result = await File.getFileByID(cid,fid);
   ctx.response.body = result
 })
 
 router.get('/search/:search',async function (ctx) {
   const searchValue = ctx.params.search;
-  const cid = ctx.session.cid;
+  const cid = ctx.session.club.cid;
   const result = await File.searchFile(cid,searchValue);
   ctx.response.body = result
 })
@@ -65,10 +61,8 @@ router.get('/search/:search',async function (ctx) {
 
 router.put('/:id',async function(ctx) {
   const fid = ctx.params.id;
-  const content = ctx.request.body.content || undefined
-  const title = ctx.request.body.title || undefined
-  const cid = ctx.session.cid;
-  // const cid = 1;
+  const {content=undefined,title=undefined} = ctx.request.body
+  const cid = ctx.session.club.cid;
   const result = await File.updateFile(cid,fid,content)
   ctx.response.body = result
 })
@@ -80,8 +74,7 @@ router.put('/:id',async function(ctx) {
 
 router.delete('/:id',async function (ctx) {
   const fid = ctx.params.id;
-  const cid = ctx.session.cid;
-  // const cid = 1;
+  const cid = ctx.session.club.cid;
   const result = await File.deleteFile(cid,fid)
   ctx.response.body = result
 })

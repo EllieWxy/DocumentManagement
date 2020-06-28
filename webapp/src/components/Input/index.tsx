@@ -21,7 +21,6 @@ export default class Input extends React.Component<IInputProps,{}>{
         }
     }
 
-
     render(){
         const {className='',placeholder,type='text',prefix,suffix,value,onChange,onSuffix} = this.props;
 
