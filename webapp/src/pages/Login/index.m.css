@@ -28,3 +28,8 @@ body {
     color: white;
 }
 
+.input {
+    border-radius: 30px!important;
+    margin-bottom: 10px;
+}
+

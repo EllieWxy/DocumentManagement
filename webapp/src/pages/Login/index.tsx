@@ -1,11 +1,8 @@
 import * as React from 'react'
 import { withRouter } from 'react-router'
-import { message, Spin } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
+import { message, Spin, Input} from 'antd'
+import { LoadingOutlined,UserOutlined,LockOutlined} from '@ant-design/icons'
 import login from 'apis/login'
-import Input from 'components/Input'
-import userIcon from 'img/user.svg'
-import passwordIcon from 'img/password.svg'
 import style from './index.m.css'
 
 interface ILoginState {
@@ -56,22 +53,11 @@ class Login extends React.Component<any, ILoginState> {
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
     return (
       <div className={style.container}>
-        <Input
-          prefix={userIcon}
-          className="hasBack"
-          placeholder="用户名"
-          onChange={this.updateUser.bind(this)}
-          type="text"
-          value={this.state.staffId}
-        />
-        <Input
-          prefix={passwordIcon}
-          className="hasBack"
-          placeholder="密码"
-          onChange={this.updatePassword.bind(this)}
-          type="password"
-          value={this.state.password}
-        />
+          <Input className={style.input} size="large" placeholder="用户名"
+                 prefix={<UserOutlined />} onChange={this.updateUser.bind(this)}/>
+          <Input className={style.input} size="large" placeholder="密码" type='password'
+                 onPressEnter={this.handleClick.bind(this)}
+                 prefix={<LockOutlined />} onChange={this.updatePassword.bind(this)} />
         <div className={style.button} onClick={this.handleClick}>
           {this.state.isLoading ? (
             <Spin className={style.loading} indicator={antIcon} />

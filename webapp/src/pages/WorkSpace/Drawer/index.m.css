@@ -17,8 +17,22 @@
 .top {
     display: flex;
     align-items: center;
+    padding-top: 10px;
+}
+
+.search {
+    border-radius: 30px!important;
 }
 
 .tree{
     overflow: scroll;
+}
+
+.menu{
+    position: absolute;
+    z-index: 1;
+}
+
+.hidden{
+    visibility: hidden;
 }

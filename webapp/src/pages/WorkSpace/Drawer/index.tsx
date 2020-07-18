@@ -1,10 +1,8 @@
 import * as React from 'react'
-import {message,Modal,Tree} from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import {message,Modal,Tree,Input,Menu} from 'antd';
+import { ExclamationCircleOutlined,SearchOutlined } from '@ant-design/icons';
 import {createFile} from "apis/file";
-import Input from "components/Input";
 import Operation from "components/Operation";
-import searchIcon from "img/search.svg";
 import addIcon from "img/add.svg";
 import style from "./index.m.css"
 
@@ -20,11 +18,15 @@ export interface IDrawerProps {
     search?:string
     onChangeSearch:()=>any,
     getFiles?:() => any,
+    handleContextMenu?:(e:any)=>any
+    menuStyle:any
+    menuHandleClick?:(e:any)=>any
 }
 
 interface IDrawerState {
     newFileName:string,
-    selectedKeys:any
+    selectedKeys:any,
+
 }
 
 export default class Drawer extends React.Component<IDrawerProps,IDrawerState>{
@@ -33,7 +35,7 @@ export default class Drawer extends React.Component<IDrawerProps,IDrawerState>{
         super(props)
         this.state = {
             newFileName : '',
-            selectedKeys: []
+            selectedKeys: [],
         }
     }
 
@@ -69,8 +71,6 @@ export default class Drawer extends React.Component<IDrawerProps,IDrawerState>{
         });
     }
 
-
-
     render(){
         const onSelect = (selectedKeys:any) => {
             this.props.getDetail(selectedKeys)
@@ -78,10 +78,9 @@ export default class Drawer extends React.Component<IDrawerProps,IDrawerState>{
 
         return <div className={style.drawer}>
             <div className={style.top}>
-                <Input placeholder='search...' type='text' className='hasBack' onChange={this.props.onChangeSearch}
-                       suffix={searchIcon} value={this.props.search} onSuffix={this.props.handleSuffix}/>
+                <Input size="large" placeholder="搜索" className={style.search}
+                       suffix={<SearchOutlined />} onChange={this.props.onChangeSearch}/>
                 <Operation icon={addIcon} className='add' handleClick={this.handleClickAdd.bind(this)}/>
-
             </div>
             <div className={style.nodeTree}>
                 <div className={style.title}>{this.props.title}</div>
@@ -91,9 +90,14 @@ export default class Drawer extends React.Component<IDrawerProps,IDrawerState>{
                                    selectedKeys={[this.props.selectFid]}
                     onSelect={onSelect}
                     treeData={this.props.node}
+                                   onRightClick={this.props.handleContextMenu.bind(this)}
                 /> : <div>这里空空如也诶</div>}
-
             </div>
+            <Menu className={style.menu} style={this.props.menuStyle} onClick={this.props.menuHandleClick}>
+                <Menu.Item key="add">新建</Menu.Item>
+                <Menu.Item key="remove">删除</Menu.Item>
+                <Menu.Item key="rename">重命名</Menu.Item>
+            </Menu>
         </div>
     }
 }

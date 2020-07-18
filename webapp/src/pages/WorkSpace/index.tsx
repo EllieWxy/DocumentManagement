@@ -21,7 +21,10 @@ interface IWorkSpaceState {
         title:string,
         content:string
         children:[]
-    }]
+    }],
+    menu:any,
+    rightClickFid:string,
+    rightClickTitle:string
 }
 
 export default class WorkSpace extends React.Component<{},IWorkSpaceState>{
@@ -38,7 +41,14 @@ export default class WorkSpace extends React.Component<{},IWorkSpaceState>{
                 title:'',
                 content:'',
                 children:[]
-            }]
+            }],
+            menu:{
+                top:'',
+                left:'',
+                visibility:'hidden'
+            },
+            rightClickFid:'',
+            rightClickTitle:''
         }
         getFile().then((res:any) => {
             if(res === '未登录'){
@@ -103,18 +113,20 @@ export default class WorkSpace extends React.Component<{},IWorkSpaceState>{
     }
 
     //删除文件
-    removeFile(){
-        if(this.state.fid === ''){
+    removeFile(title?:string,fid?:string){
+        if(this.state.fid === '' && !fid){
             message.error('没有可以删除的文件');
             return;
         }
+        const _fid = fid ? fid : this.state.fid
+        const _title = title ? title : this.state.title
         const that = this
         confirm({
-            title: `确定删除文件${that.state.title}吗？`,
+            title: `确定删除文件${_title}吗？`,
             icon: <ExclamationCircleOutlined />,
             content: '此操作不可撤销',
             onOk() {
-                removeFile(that.state.fid).then(() => {
+                removeFile(_fid).then(() => {
                     that.setState({fid:'',title:'',renderContent:'',fileContent:''})
                 })
                 getFile().then((res:any) => {
@@ -161,9 +173,29 @@ export default class WorkSpace extends React.Component<{},IWorkSpaceState>{
         }
     }
 
+    //右键菜单
+    handleClick = ()=>{
+        this.setState({menu:{visibility:'hidden'}})
+    }
+    handleContextMenu = (e:any)=>{
+        this.setState({rightClickFid: e.node.fid,rightClickTitle:e.node.title,
+                        menu: {left: e.event.clientX + 'px', top: e.event.clientY + 'px', visibility: 'visible'}})
+
+    }
+    //菜单的点击事件
+    menuHandleClick = (e:any)=>{
+        const {key} = e
+        if(key === 'remove'){
+            this.removeFile(this.state.rightClickTitle,this.state.rightClickFid)
+            return
+        }
+        if(key === 'add'){
+            
+        }
+    }
     render(){
         let contentHasChanged = Boolean(this.state.fileContent !== this.state.renderContent)
-        return <div className={style.content}>
+        return <div className={style.content} onClick={this.handleClick}>
             <Prompt message={() => {
                if(contentHasChanged){
                    return `您还有文件未保存，确定要离开吗？`
@@ -177,7 +209,10 @@ export default class WorkSpace extends React.Component<{},IWorkSpaceState>{
                     handleSuffix={this.handleSuffix.bind(this)}
                     search = {this.state.search}
                     onChangeSearch={this.handleChangeSearch.bind(this)}
-                    getFiles={this.updateFileTree.bind(this)}/>
+                    getFiles={this.updateFileTree.bind(this)}
+                    handleContextMenu={this.handleContextMenu}
+                    menuStyle={this.state.menu}
+                    menuHandleClick={this.menuHandleClick}/>
             <div className={style.right}>
                 {this.state.title ?
                     <MDEditor renderFid={this.state.fid}
