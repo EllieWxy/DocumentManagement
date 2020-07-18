@@ -1,20 +1,20 @@
 import * as React from 'react'
 import {message, Modal, Tree, Input, Menu} from 'antd';
-import {ExclamationCircleOutlined, SearchOutlined, EditOutlined} from '@ant-design/icons';
-import {createFile, getFile, updateFile} from "apis/file";
+import {createFile, updateFile} from "apis/file";
 import style from "./index.m.css"
+import Operation from 'components/Operation'
+import addIcon from "img/add.svg";
 
-const {confirm} = Modal;
 const {DirectoryTree} = Tree;
+const { Search } = Input;
 
 export interface IDrawerProps {
   selectFid: string,
   title: string,
   getDetail: (fid: string) => any,
   node: any
-  handleSuffix: () => any,
+  handleSearch: () => any,
   search?: string
-  onChangeSearch: () => any,
   getFiles?: () => any,
   handleContextMenu?: (e: any) => any
   menuStyle?: any
@@ -27,10 +27,10 @@ export interface IDrawerProps {
 }
 
 interface IDrawerState {
-  newFileName: string,
   selectedKeys: any,
   fileName: string,
-  visible:boolean
+  visible:boolean,
+  isAddNewFile:boolean
 }
 
 export default class Drawer extends React.Component<IDrawerProps, IDrawerState> {
@@ -38,17 +38,11 @@ export default class Drawer extends React.Component<IDrawerProps, IDrawerState> 
   constructor(props: any) {
     super(props)
     this.state = {
-      newFileName: '',
       selectedKeys: [],
       fileName:'',
-      visible:false
+      visible:false,
+      isAddNewFile:false
     }
-  }
-
-  changeNewFileName = (event: any) => {
-    this.setState({
-      newFileName: event.target.value
-    })
   }
 
   handleChangeFileName = (e: any) => {
@@ -56,35 +50,16 @@ export default class Drawer extends React.Component<IDrawerProps, IDrawerState> 
   }
 
   //新建文件
-  handleClickAdd = () => {
-    const that = this
-    const fileFather = this.props.rightClickNode.rightClickTitle
-    const fidFather = this.props.rightClickNode.rightClickFid
-    confirm({
-      title: `请输入文件名`,
-      icon: <ExclamationCircleOutlined/>,
-      content:
-        <div>
-          确定创建{fileFather}的子文件
-          <Input type='text' placeholder='新建文件' onChange={that.changeNewFileName.bind(that)}/>
-        </div>,
-      onOk() {
-        createFile({title: that.state.newFileName, content: '', father: fidFather})
-          .then((res: any) => {
-            if (res.message === '文章创建成功') {
-              message.success('文章创建成功')
-              that.props.getFiles()
-            } else {
-              message.error(res)
-            }
-          })
-      }
+  showModalForNewFile = () => {
+    this.setState({
+      visible: true,fileName:'',isAddNewFile:true
     });
   }
+
   //重命名文件
   showModal = () => {
     this.setState({
-      visible: true,fileName:this.props.rightClickNode.rightClickTitle
+      visible: true,fileName:this.props.rightClickNode.rightClickTitle,isAddNewFile:false
     });
   };
   onCancel = () => {
@@ -94,14 +69,27 @@ export default class Drawer extends React.Component<IDrawerProps, IDrawerState> 
   }
 
   onOk = () => {
+    const that = this
     const fid = this.props.rightClickNode.rightClickFid
+    this.setState({
+      visible: false,
+    });
+    if(this.state.isAddNewFile){
+      createFile({title: that.state.fileName, content:'', father: fid})
+        .then((res: any) => {
+          if (res.message === '文章创建成功') {
+            message.success('文章创建成功')
+            that.props.getFiles()
+          } else {
+            message.error(res)
+          }
+        })
+      return
+    }
     updateFile(fid, {title: this.state.fileName,content:undefined,father:undefined}).then(res => {
       message.success(res)
       this.props.updateFileTree()
     })
-    this.setState({
-      visible: false,
-    });
   };
 
   menuHandleClick = (e: any) => {
@@ -112,7 +100,7 @@ export default class Drawer extends React.Component<IDrawerProps, IDrawerState> 
       return
     }
     if (key === 'add') {
-      this.handleClickAdd()
+      this.showModalForNewFile()
       return
     }
     if (key === 'rename') {
@@ -127,8 +115,12 @@ export default class Drawer extends React.Component<IDrawerProps, IDrawerState> 
 
     return <div className={style.drawer}>
       <div className={style.top}>
-        <Input size="large" placeholder="搜索" className={style.search}
-               suffix={<SearchOutlined/>} onChange={this.props.onChangeSearch}/>
+        <Search
+          placeholder="搜索..."
+          onSearch={this.props.handleSearch}
+          className={style.search}
+        />
+        <Operation icon={addIcon} className='add' handleClick={this.showModalForNewFile.bind(this)}/>
       </div>
       <div className={style.nodeTree}>
         <div className={style.title}>{this.props.title}</div>
@@ -154,6 +146,9 @@ export default class Drawer extends React.Component<IDrawerProps, IDrawerState> 
         okText="确认"
         cancelText="取消"
       >
+        {this.state.isAddNewFile ?
+          <div>确定创建{this.props.rightClickNode.rightClickTitle}的子文件吗？</div>
+        : null}
         <Input type='text' value={this.state.fileName} onChange={this.handleChangeFileName.bind(this)}/>
       </Modal>
     </div>

@@ -24,12 +24,8 @@ exports.addUser = async function(user) {
 
 exports.checkUser = function(staffId, password) {
   return userModel.findOne({ staffId }).then(res => {
-    if (res === null) {
-      throw new JSONError('账号不存在', 401)
-    } else {
-      if (res.password !== password) {
-        throw new JSONError('用户名或密码不正确!', 401)
-      }
+    if (res === null || res.password !== password) {
+      throw new JSONError('用户名或密码不正确!', 401)
     }
     return res
   })
