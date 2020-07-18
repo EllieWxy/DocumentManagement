@@ -63,7 +63,7 @@ router.put('/:id',async function(ctx) {
   const fid = ctx.params.id;
   const {content=undefined,title=undefined} = ctx.request.body
   const cid = ctx.session.club.cid;
-  const result = await File.updateFile(cid,fid,content)
+  const result = await File.updateFile(cid,fid,title,content)
   ctx.response.body = result
 })
 

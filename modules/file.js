@@ -56,8 +56,15 @@ exports.getFileByID = function(cid,fid){
   return fileModel.findOne({cid:cid,fid:fid})
 }
 
-exports.updateFile = function (cid,fid,content) {
-  return fileModel.findOneAndUpdate({cid:cid,fid:fid},{"$set":{"content":content}}, {new: true})
+exports.updateFile = function (cid,fid,title,content) {
+  let update = {"$set":{}}
+  if(title){
+    update["$set"]["title"] = title
+  }
+  if(content){
+    update["$set"]["content"] = content
+  }
+  return fileModel.findOneAndUpdate({cid:cid,fid:fid},update,{new: true})
 }
 
 exports.deleteFile = function (cid,fid) {

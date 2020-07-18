@@ -183,16 +183,7 @@ export default class WorkSpace extends React.Component<{},IWorkSpaceState>{
 
     }
     //菜单的点击事件
-    menuHandleClick = (e:any)=>{
-        const {key} = e
-        if(key === 'remove'){
-            this.removeFile(this.state.rightClickTitle,this.state.rightClickFid)
-            return
-        }
-        if(key === 'add'){
-            
-        }
-    }
+
     render(){
         let contentHasChanged = Boolean(this.state.fileContent !== this.state.renderContent)
         return <div className={style.content} onClick={this.handleClick}>
@@ -212,7 +203,10 @@ export default class WorkSpace extends React.Component<{},IWorkSpaceState>{
                     getFiles={this.updateFileTree.bind(this)}
                     handleContextMenu={this.handleContextMenu}
                     menuStyle={this.state.menu}
-                    menuHandleClick={this.menuHandleClick}/>
+                    rightClickNode={{rightClickFid:this.state.rightClickFid,
+                                    rightClickTitle:this.state.rightClickTitle}}
+                    removeFile={this.removeFile.bind(this)}
+                    updateFileTree={this.updateFileTree.bind(this)}/>
             <div className={style.right}>
                 {this.state.title ?
                     <MDEditor renderFid={this.state.fid}
