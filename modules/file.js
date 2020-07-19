@@ -2,7 +2,7 @@ const fileModel = require('../models').File
 const JSONError = require('../utils/JSONError')
 
 exports.addFile = function (fid, cid, title, content, father, keyword) {
-  fileModel.create({
+  return fileModel.create({
     fid: fid,
     cid: cid,
     title: title,

@@ -3,6 +3,7 @@ const Router = require('koa-router')
 const packageJson = require('../package')
 const User = require('../modules/user')
 const Club = require('../modules/club')
+const File = require('../modules/file')
 const JSONError = require('../utils/JSONError')
 const calcPassword = require('../utils/calcPassword')
 
@@ -49,6 +50,8 @@ router.post('/initial', async function(ctx) {
   // await session.startTransaction()
   try {
     const createdClub = await Club.addClub(club)
+    const {clubName }= club
+    await File.addFile(clubName,createdClub.cid,clubName)
     await User.addUser({
       staffId: user.staffId,
       password: calcPassword(user.password),
@@ -89,11 +92,8 @@ router.post('/reg', async function(ctx) {
 
 router.post('/clubReg', async function(ctx) {
   let { clubName } = ctx.request.body
-  const clubRes = await Club.getClubInfoByName(clubName)
-  if (clubRes.length !== 0) {
-    throw new JSONError('社团名称已存在', 403)
-  }
   const res = await Club.addClub(clubName)
+  await File.addFile(clubName,res.cid,clubName)
   ctx.response.body = res
 })
 

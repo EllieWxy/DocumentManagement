@@ -2,8 +2,6 @@ import * as React from 'react'
 import {message, Modal, Tree, Input, Menu} from 'antd';
 import {createFile, updateFile} from "apis/file";
 import style from "./index.m.css"
-import Operation from 'components/Operation'
-import addIcon from "img/add.svg";
 
 const {DirectoryTree} = Tree;
 const { Search } = Input;
@@ -120,7 +118,6 @@ export default class Drawer extends React.Component<IDrawerProps, IDrawerState> 
           onSearch={this.props.handleSearch}
           className={style.search}
         />
-        <Operation icon={addIcon} className='add' handleClick={this.showModalForNewFile.bind(this)}/>
       </div>
       <div className={style.nodeTree}>
         <div className={style.title}>{this.props.title}</div>
