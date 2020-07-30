@@ -7,6 +7,7 @@ import Sidebar from "components/Sidebar";
 import MDEditor from "components/MDEditor";
 import Drawer from "./Drawer";
 import style from './index.m.css'
+import {UserContext} from 'context/userContext'
 
 const {confirm} = Modal;
 
@@ -20,14 +21,19 @@ interface IWorkSpaceState {
     fid: string,
     title: string,
     content: string
-    children: []
+    children: [],
+    father:string
   }],
   menu: any,
   rightClickFid: string,
-  rightClickTitle: string
+  rightClickTitle: string,
+  fatherFid:string
 }
 
 export default class WorkSpace extends React.Component<{}, IWorkSpaceState> {
+
+  static contextType = UserContext
+
   constructor(props: any) {
     super(props)
     this.state = {
@@ -40,7 +46,8 @@ export default class WorkSpace extends React.Component<{}, IWorkSpaceState> {
         fid: '',
         title: '',
         content: '',
-        children: []
+        children: [],
+        father:''
       }],
       menu: {
         top: '',
@@ -48,7 +55,8 @@ export default class WorkSpace extends React.Component<{}, IWorkSpaceState> {
         visibility: 'hidden'
       },
       rightClickFid: '',
-      rightClickTitle: ''
+      rightClickTitle: '',
+      fatherFid:''
     }
     getFile().then((res: any) => {
       if (res === '未登录') {
@@ -58,6 +66,7 @@ export default class WorkSpace extends React.Component<{}, IWorkSpaceState> {
       }
       this.setState({node: res})
     })
+
   }
 
   //输入的时候对content进行更新
@@ -148,7 +157,7 @@ export default class WorkSpace extends React.Component<{}, IWorkSpaceState> {
   }
 
   //每次更新后重新获取文件
-  updateFileTree() {
+  refreshFileTree() {
     getFile().then((res: any) => {
       this.setState({node: res})
     })
@@ -158,7 +167,6 @@ export default class WorkSpace extends React.Component<{}, IWorkSpaceState> {
   componentWillMount() {
     window.addEventListener('beforeunload', this.beforeunload);
   }
-
   componentWillUnmount() {
     window.removeEventListener('beforeunload', this.beforeunload);
   }
@@ -177,15 +185,15 @@ export default class WorkSpace extends React.Component<{}, IWorkSpaceState> {
   }
   handleContextMenu = (e: any) => {
     this.setState({
-      rightClickFid: e.node.fid, rightClickTitle: e.node.title,
+      rightClickFid: e.node.fid, rightClickTitle: e.node.title,fatherFid:e.node.fid,
       menu: {left: e.event.clientX + 'px', top: e.event.clientY + 'px', visibility: 'visible'}
     })
-
   }
 
-  //菜单的点击事件
-
   render() {
+    if(!this.context.club){
+      this.context.getClub()
+    }
     let contentHasChanged = Boolean(this.state.fileContent !== this.state.renderContent)
     return <div className={style.content} onClick={this.handleClick}>
       <Prompt message={() => {
@@ -200,7 +208,6 @@ export default class WorkSpace extends React.Component<{}, IWorkSpaceState> {
               getDetail={this.getAndRenderFile.bind(this)}
               handleSearch={this.handleSearch.bind(this)}
               search={this.state.search}
-              getFiles={this.updateFileTree.bind(this)}
               handleContextMenu={this.handleContextMenu}
               menuStyle={this.state.menu}
               rightClickNode={{
@@ -208,7 +215,8 @@ export default class WorkSpace extends React.Component<{}, IWorkSpaceState> {
                 rightClickTitle: this.state.rightClickTitle
               }}
               removeFile={this.removeFile.bind(this)}
-              updateFileTree={this.updateFileTree.bind(this)}/>
+              refreshFileTree={this.refreshFileTree.bind(this)}
+              />
       <div className={style.right}>
         {this.state.title ?
           <MDEditor renderFid={this.state.fid}

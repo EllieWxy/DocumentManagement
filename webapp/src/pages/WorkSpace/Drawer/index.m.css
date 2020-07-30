@@ -32,3 +32,7 @@
   position: absolute;
   z-index: 1;
 }
+
+.fileName {
+  margin-top: 10px!important;
+}

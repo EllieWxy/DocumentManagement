@@ -19,11 +19,17 @@ interface IMainState {
 export class Main extends React.Component<any, IMainState> {
     constructor(props: any) {
         super(props)
+        const getClub = () => {
+            debugger
+            getUserInfo().then(res => {this.setState({userInfo:res})})
+        }
+
         this.state = {
             isLoading: true,
             userInfo: {
                 staffId: '',
-                club: ''
+                club: '',
+                getClub:getClub
             },
             platformInfo: {
                 version: '',
@@ -35,7 +41,10 @@ export class Main extends React.Component<any, IMainState> {
         const p2 = getUserInfo().catch(err=>{return new Error(err.message)})
         Promise.all([p1, p2])
             .then((values: any) => {
-                this.setState({platformInfo: values[0], isLoading: false, userInfo: values[1]})
+                if(values[1].message !== "未登录"){
+                    this.setState({userInfo: values[1]})
+                }
+                this.setState({platformInfo: values[0], isLoading: false})
             })
             .catch(err => {
                 console.log(err)

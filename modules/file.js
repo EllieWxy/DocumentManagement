@@ -17,12 +17,22 @@ exports.fatherAddChild = function (father, fid, title) {
   return fileModel.findOneAndUpdate({fid: father}, {"$push": {"childNodes": {fid: fid, title: title}}});
 }
 
+exports.fatherRemoveChild = async function (cid,fid) {
+  const file = await fileModel.findOne({fid})
+  const father = file.father
+  return await fileModel.findOneAndUpdate({fid:father},{"$pull": {"childNodes" : {fid}}})
+}
+
+exports.fileChangeFather = async function(cid,fid,father){
+  return await fileModel.findOneAndUpdate({cid:cid,fid:fid},{"$set":{father:father}})
+}
+
 exports.ifHaveChild = function (fid) {
   return fileModel.find({fid: fid})
 }
 
 getFiles = async function (cid, fid) {
-  const res = await fileModel.find({cid:cid,fid:fid},{title:1,fid:1,childNodes:1})
+  const res = await fileModel.find({cid:cid,fid:fid},{title:1,fid:1,father:1,childNodes:1})
   let tree = res[0]
   if (!tree) {
     return tree
@@ -95,4 +105,6 @@ exports.searchFile = function (cid,search) {
   return fileModel.find({$or:[{title:{$regex:search,'$options':'i'}},
       {content:{$regex: search,'$options':'i'}},{keyword:{$regex: search,'$options':'i'}}]})
 }
+
+
 

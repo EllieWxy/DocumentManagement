@@ -61,8 +61,16 @@ router.get('/search/:search',async function (ctx) {
 
 router.put('/:id',async function(ctx) {
   const fid = ctx.params.id;
-  const {content=undefined,title=undefined} = ctx.request.body
-  const cid = ctx.session.club.cid;
+  const {content=undefined,title=undefined,father=undefined} = ctx.request.body
+  const {cid,clubName} = ctx.session.club;
+  if(fid === clubName){
+    throw JSONError('社团根目录不可修改',403)
+  }
+  if(father !== undefined){
+    await File.fatherRemoveChild(cid,fid)
+    await File.fileChangeFather(cid,fid,father)
+    await File.fatherAddChild(father,fid,title)
+  }
   const result = await File.updateFile(cid,fid,title,content)
   ctx.response.body = result
 })
@@ -78,5 +86,6 @@ router.delete('/:id',async function (ctx) {
   const result = await File.deleteFile(cid,fid)
   ctx.response.body = result
 })
+
 
 module.exports = router

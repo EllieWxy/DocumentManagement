@@ -3,7 +3,8 @@ import fetch from './fetch'
 
 export interface IUserInfo {
   staffId: string
-  club: string
+  club: string,
+  getClub:any
 }
 
 export default function login(staffId: string, password: string) {
