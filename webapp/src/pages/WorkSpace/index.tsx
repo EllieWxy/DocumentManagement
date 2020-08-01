@@ -24,7 +24,11 @@ interface IWorkSpaceState {
     children: [],
     father:string
   }],
-  menu: any,
+  menu: {
+    top: string,
+    left: string,
+    visibility: string
+  },
   rightClickFid: string,
   rightClickTitle: string,
   fatherFid:string
@@ -181,7 +185,7 @@ export default class WorkSpace extends React.Component<{}, IWorkSpaceState> {
 
   //右键菜单
   handleClick = () => {
-    this.setState({menu: {visibility: 'hidden'}})
+    this.setState({menu: {left:'0', top:'0', visibility: 'hidden'}})
   }
   handleContextMenu = (e: any) => {
     this.setState({

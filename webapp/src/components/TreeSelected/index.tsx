@@ -13,7 +13,13 @@ interface ITreeSelectedProps {
 interface ITreeSelectedState {
   value:string,
   valueMap:any,
-  treeData:any
+  treeData:[{
+    path:string,
+    title:string,
+    children:[],
+    value:string,
+    father:string
+  }] | []
 }
 
 export default class TreeSelected extends React.Component<ITreeSelectedProps,ITreeSelectedState>{
@@ -23,7 +29,7 @@ export default class TreeSelected extends React.Component<ITreeSelectedProps,ITr
     this.state = {
       value:'',
       valueMap:{},
-      treeData:{}
+      treeData:[]
     }
     this.loops(this.props.node)
   }

@@ -16,11 +16,10 @@ interface IMainState {
     platformInfo: IPlatformInfo
 }
 
-export class Main extends React.Component<any, IMainState> {
+export class Main extends React.Component<{}, IMainState> {
     constructor(props: any) {
         super(props)
         const getClub = () => {
-            debugger
             getUserInfo().then(res => {this.setState({userInfo:res})})
         }
 

@@ -21,7 +21,7 @@ class Login extends React.Component<any, ILoginState> {
     }
   }
 
-  handleClick = (event: any) => {
+  handleClick = (event:any) => {
     // = 放在实例上
     event.preventDefault()
     this.setState({ isLoading: true })
